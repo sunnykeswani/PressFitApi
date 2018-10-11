@@ -1,0 +1,92 @@
+﻿@model IEnumerable<PressFitApi.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<script>
+    $(document).ready(function () {
+        $("input[name='item.HighPriority']").change(
+
+            function (e) {
+                // code here to hide your text
+
+                var checked = $(this).attr('checked');
+                if (true) {
+                    //alert('hello');
+                    $.post('Products1/UpdatePriority', { id: e.target.id },
+        function (returnedData) {
+            console.log(returnedData);
+        }).fail(function () {
+            console.log("error");
+        });
+                }
+
+               
+            }
+       );
+
+
+    });
+</script>
+
+@using (Html.BeginForm("Create", "Products1", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    @Html.AntiForgeryToken()
+
+    <h2>Product List</h2>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.SearchTags)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.FileName)
+            </th>
+            <th>
+                Priority
+            </th>
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.SearchTags)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.FileName)
+                </td>
+
+                <td>
+                    @Html.CheckBoxFor(modelItem => item.HighPriority, new { id = item.Id })
+                </td>
+
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+
+    </table>
+
+}

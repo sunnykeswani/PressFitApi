@@ -1,0 +1,55 @@
+﻿@model PressFitApi.Models.Product
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Product Details</h2>
+
+<div>
+    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.SearchTags)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SearchTags)
+        </dd>
+       
+
+        <dt>
+            Image Upload
+        </dt>
+
+        <dd>
+
+            @Html.DisplayFor(model => model.Id) .jpeg
+        </dd>
+
+        <dt>
+            Pdf Upload
+        </dt>
+
+        <dd>
+
+            @Html.DisplayFor(model => model.Id) .pdf
+        </dd>
+       
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

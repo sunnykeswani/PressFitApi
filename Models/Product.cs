@@ -1,6 +1,7 @@
 ﻿using PressFitApi.Controllers;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -32,19 +33,20 @@ namespace PressFitApi.Models
         [HiddenInput(DisplayValue = false)]
         public string UpdatedBy { get; set; }
 
-        
+
         //[ValidateFile(ErrorMessage = "Please select a PNG image smaller than 3MB")]
         //[Required]
         [NotMapped]
+        [Required]
         public HttpPostedFileBase ImageUpload { get; set; }
 
-        //[Required]
+        [Required]
         //[FileTypes("pdf")]
         [NotMapped]
         public HttpPostedFileBase PdfUpload { get; set; }
 
         [Required]
-
+        //[RegularExpression(@"^\S*$", ErrorMessage = "No white space allowed")]
         [Display(Name = "File Name")]
         public string FileName { get; set; }
 
@@ -53,6 +55,10 @@ namespace PressFitApi.Models
         public string PdfUrl { get; set; }
 
         public Boolean HighPriority { get; set; }
+
+        [DefaultValue(int.MaxValue)]
+        [Display(Name = "Priority Number")]
+        public int PriorityNumber { get; set; }
 
 
 

@@ -6,13 +6,14 @@
 
 <script>
     $(document).ready(function () {
+        
         $("input[name='item.HighPriority']").change(
 
             function (e) {
                 // code here to hide your text
 
                 var checked = $(this).attr('checked');
-                if (true) {
+                
                     //alert('hello');
                     $.post('Products1/UpdatePriority', { id: e.target.id },
         function (returnedData) {
@@ -20,9 +21,7 @@
         }).fail(function () {
             console.log("error");
         });
-                }
 
-               
             }
        );
 
@@ -74,7 +73,7 @@
                 </td>
 
                 <td>
-                    @Html.CheckBoxFor(modelItem => item.HighPriority, new { id = item.Id })
+                    @Html.DisplayFor(modelItem => item.PriorityNumber)
                 </td>
 
 

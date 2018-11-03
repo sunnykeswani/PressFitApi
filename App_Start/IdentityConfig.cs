@@ -11,6 +11,10 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using PressFitApi.Models;
+using System.Net.Mail;
+using System.Configuration;
+using System.Net.Configuration;
+using System.Net;
 
 namespace PressFitApi
 {
@@ -18,6 +22,35 @@ namespace PressFitApi
     {
         public Task SendAsync(IdentityMessage message)
         {
+
+            //var fromAddress = new MailAddress("sak9890@gmail.com", "From Name");
+            var fromAddress = new MailAddress(ConfigurationManager.AppSettings["FromAddress"], "From Name");
+            var toAddress = new MailAddress(message.Destination, "To Name");
+            //string fromPassword = "#test$1234";
+            string fromPassword = ConfigurationManager.AppSettings["Password"];
+
+            string subject = message.Subject;
+             string body = message.Body;
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new System.Net.NetworkCredential(fromAddress.Address, fromPassword)
+            };
+            using (var msg = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = subject,
+                Body = body
+            })
+            {
+                smtp.Send(msg);
+            }
+
+
             // Plug in your email service here to send an email.
             return Task.FromResult(0);
         }

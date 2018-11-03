@@ -14,5 +14,9 @@ namespace PressFitApi.Models
         public int Id { get; set; }
         public string DeviceId { get; set; }
         public string TokenId { get; set; }
+        public string ChannelId { get; set; }
+
+        [NotMapped]
+        public string Version { get; set; }
     }
 }

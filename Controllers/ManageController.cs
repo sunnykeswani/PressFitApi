@@ -10,7 +10,7 @@ using PressFitApi.Models;
 
 namespace PressFitApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;

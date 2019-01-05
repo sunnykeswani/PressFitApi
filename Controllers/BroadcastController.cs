@@ -15,7 +15,7 @@ using System.Web.Mvc;
 
 namespace PressFitApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class BroadcastController : Controller
     {
         private PressFitApiContext db = new PressFitApiContext();
@@ -127,7 +127,7 @@ namespace PressFitApi.Controllers
                 var appleCert = System.IO.File.ReadAllBytes(Server.MapPath("~/Files/APNS_PROD_Certificates.p12"));
 
                 // Configuration (NOTE: .pfx can also be used here)
-                var config = new ApnsConfiguration(ApnsConfiguration.ApnsServerEnvironment.Sandbox, appleCert, "");
+                var config = new ApnsConfiguration(ApnsConfiguration.ApnsServerEnvironment.Production, appleCert, "");
 
                 // Create a new broker
 

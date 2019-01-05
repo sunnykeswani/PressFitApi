@@ -35,12 +35,12 @@ namespace PressFitApi.Models
 
 
         //[ValidateFile(ErrorMessage = "Please select a PNG image smaller than 3MB")]
-        //[Required]
+
         [NotMapped]
-        [Required]
+        //[Required]
         public HttpPostedFileBase ImageUpload { get; set; }
 
-        [Required]
+        //[Required]
         //[FileTypes("pdf")]
         [NotMapped]
         public HttpPostedFileBase PdfUpload { get; set; }
@@ -60,7 +60,11 @@ namespace PressFitApi.Models
         [Display(Name = "Priority Number")]
         public int PriorityNumber { get; set; }
 
+        [NotMapped]
+        public double PdfSize { get; set; }
 
+        [NotMapped]
+        public double ImageSize { get; set; }
 
     }
 }

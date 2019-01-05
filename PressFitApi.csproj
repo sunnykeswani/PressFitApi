@@ -239,13 +239,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810302031059_tsetchanges.cs" />
-    <Compile Include="Migrations\201810302031059_tsetchanges.Designer.cs">
-      <DependentUpon>201810302031059_tsetchanges.cs</DependentUpon>
+    <Compile Include="Migrations\201812090813310_newdb.cs" />
+    <Compile Include="Migrations\201812090813310_newdb.Designer.cs">
+      <DependentUpon>201812090813310_newdb.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Broadcast.cs" />
+    <Compile Include="Models\ContactUs.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Product.cs" />
@@ -321,6 +322,10 @@
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="Files\APNS_DEV_Certificates.p12" />
     <Content Include="Files\APNS_PROD_Certificates.p12" />
+    <None Include="Properties\PublishProfiles\brochures.pressfitindia.com - Web Deploy %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\brochures.pressfitindia.com - Web Deploy %283%29.pubxml" />
+    <None Include="Properties\PublishProfiles\brochures.pressfitindia.com - Web Deploy %284%29.pubxml" />
+    <None Include="Properties\PublishProfiles\brochures.pressfitindia.com - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PressFitApi - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\PressFitApi - FTP %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\PressFitApi - FTP %284%29.pubxml" />
@@ -333,6 +338,9 @@
     <None Include="Properties\PublishProfiles\PressFitApiDB1 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PressfitAzure - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\PressfitAzure - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\PressFitIndia.pubxml" />
+    <None Include="Properties\PublishProfiles\PressFitSantosh.pubxml" />
+    <None Include="Properties\PublishProfiles\Santosh.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -414,8 +422,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201810302031059_tsetchanges.resx">
-      <DependentUpon>201810302031059_tsetchanges.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201812090813310_newdb.resx">
+      <DependentUpon>201812090813310_newdb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

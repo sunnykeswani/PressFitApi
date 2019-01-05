@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace PressFitApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class BannersController : Controller
     {
         // GET: Banners

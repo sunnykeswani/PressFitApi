@@ -18,7 +18,7 @@ using System.Text;
 
 namespace PressFitApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class Products1Controller : Controller
     {
         private PressFitApiContext db = new PressFitApiContext();
@@ -50,13 +50,52 @@ namespace PressFitApi.Controllers
             try
             {
                 // return View(db.Product.OrderBy(x => x.HighPriority ? 0 : 1).ToList());
-                return View(db.Product.OrderBy(x => x.PriorityNumber).ToList());
+                var count = db.Product.OrderBy(x => x.PriorityNumber).ToList().Count;
+
+                var productSizeList = GetProductsWithSize(db.Product.ToList());
+
+                // return View(db.Product.OrderBy(x => x.PriorityNumber).ToList());
+                return View(productSizeList);
 
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+        }
+
+        private object GetProductsWithSize(List<Product> product)
+        {
+
+            try
+            {
+                List<Product> lstProductSize = new List<Product>();
+
+                foreach (var item in product)
+                {
+                    if (item.FileName != null)
+                    {
+                        Product objProduct = new Product();
+                        var pdfPath = Server.MapPath("~/PdfUploads/" + item.FileName + ".pdf");
+                        var imagePath = Server.MapPath("~/ImageUploads/" + item.FileName + ".png");
+                        double pdfLength = new System.IO.FileInfo(pdfPath).Length / (1024*1024);
+                        double imgLength = new System.IO.FileInfo(imagePath).Length / (1024 * 1024);
+                        objProduct = item;
+                        objProduct.PdfSize = pdfLength;
+                        objProduct.ImageSize = imgLength;
+                        lstProductSize.Add(objProduct);
+                    }
+
+                }
+                return lstProductSize.OrderBy(x => x.PriorityNumber);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            //  var pdfPath = Server.MapPath("~/PdfUploads");
+            //  var imagePath = Server.MapPath("~/ImageUploads");
         }
 
         // GET: Products1/Details/5
@@ -241,38 +280,38 @@ namespace PressFitApi.Controllers
         {
             try
             {
-               // ModelState.Clear();
+                // ModelState.Clear();
                 //ModelState["ImageUpload"].Errors.Clear();
                 //ModelState["PdfUpload"].Errors.Clear();
-                if (ModelState.IsValid)
+                //if (ModelState.IsValid)
+                // {
+                // DeleteFile(product);
+                Boolean currentHiddenvalue = Convert.ToBoolean(Request.Form["hiddenValue"]);
+                //****** to save files******
+                foreach (string file in Request.Files)
                 {
-                   // DeleteFile(product);
-                    Boolean currentHiddenvalue = Convert.ToBoolean(Request.Form["hiddenValue"]);
-                    //****** to save files******
-                    foreach (string file in Request.Files)
+                    HttpPostedFileBase uploadedFile = Request.Files[file];
+                    if (uploadedFile.ContentLength != 0)
                     {
-                        HttpPostedFileBase uploadedFile = Request.Files[file];
-                        if (uploadedFile.ContentLength != 0)
-                        {
-                            SaveFile(uploadedFile, ref product);
-                        }
-                        //Save file here
+                        SaveFile(uploadedFile, ref product);
                     }
-
-                    product.ModifiedDate = DateTime.Now.ToString();
-
-                    db.Entry(product).State = EntityState.Modified;
-                    db.SaveChanges();
-
-                    if (currentHiddenvalue)
-                    {
-                        //var objProduct = db.Product.Select(i=>i).ToList();
-                        Broadcast(product);
-                    }
-
-                    return RedirectToAction("Index");
+                    //Save file here
                 }
-                return View(product);
+
+                product.ModifiedDate = DateTime.Now.ToString();
+
+                db.Entry(product).State = EntityState.Modified;
+                db.SaveChanges();
+
+                if (currentHiddenvalue)
+                {
+                    //var objProduct = db.Product.Select(i=>i).ToList();
+                    Broadcast(product);
+                }
+
+                return RedirectToAction("Index");
+                // }
+                //return View(product);
             }
             catch (Exception ex)
             {
@@ -312,7 +351,7 @@ namespace PressFitApi.Controllers
                 client.DefaultRequestHeaders.Add("Authorization", " key = AIzaSyCeWSgk4KlqsoqIMA0XRuSs___jN2lMy4I");
                 // var jsonObject = "{\"registration_ids\":[\"fP1x1T4AQYo:APA91bEu_aEVl-kv8PoUtUTTAykVX_-45XsB_b_bvBR5SArTLERX3mAM0-Yp369tRNUK4T3lvx5ohfkwLHYITqznIJDBns4X-HzCuDcqb_0XeFzRUT9pep38QiN0sTx_A4vty8_aaVdt\",\"fRjyHmcLdaM:APA91bGXK0ggaPrebWjeqlpGp2HLMm36hYEPGCj1hpkzEeikdBAw_lDOb-oid3ExtTYYzX20KIokZofPSAvffDDv7WW5oa3LZfdvsw7Zsgea6GuJ9oUYoHMsxvqMgUc8R15UkasLD2Cz\"],\"collapse_key\":\"type_a\",\"content_available\":true,\"mutable-content \":true,\"data\":{\"body\":\"New Diwali Diyas\",\"message\":\"Diwali offers\",\"url\":\"https://static1.squarespace.com/static/55705e90e4b03651f8736427/t/557062f6e4b0e9b175a7d533/1536068419238/?format=1500w\"}}";
 
-                var jsonObject = "{\"registration_ids\":[" + tokenIds + "],\"collapse_key\":\"type_a\",\"content_available\":true,\"mutable-content \":true,\"data\":{\"message\":\"The price list of " + product.Title + " has been changed\",\"body\":\"Press Fit Price list\",\"url\":\"" + string.Empty + "\"}}";
+                var jsonObject = "{\"registration_ids\":[" + tokenIds + "],\"collapse_key\":\"type_a\",\"content_available\":true,\"mutable-content \":true,\"data\":{\"message\":\"The price lists of " + product.Title + " has been changed.\",\"body\":\"Press Fit Price Lists\",\"url\":\"" + string.Empty + "\"}}";
                 var content = new StringContent(jsonObject.ToString(), Encoding.UTF8, "application/json");
                 var result = client.PostAsync(client.BaseAddress, content).Result;
             }
@@ -390,7 +429,7 @@ namespace PressFitApi.Controllers
 
                     // Start Proccess 
                     apnsBroker.Start();
-                    var jsonObject = JObject.Parse("{\"aps\":{\"alert\":{\"body\":\"The price list of " + product.Title + " has been changed\",\"title\":\"Press Fit Price list\"},\"mutable-content\":1},\"sound\":\"default\",\"media-url\":\"" + string.Empty + "\"}");
+                    var jsonObject = JObject.Parse("{\"aps\":{\"alert\":{\"body\":\"The price lists of " + product.Title + " has been changed.\",\"title\":\"Press Fit Price Lists\"},\"mutable-content\":1},\"sound\":\"default\",\"media-url\":\"" + string.Empty + "\"}");
                     //var jsonObject = "{\"data\":{\"body\":\"" + broadcastModel.Message + "\",\"message\":\"" + broadcastModel.Title + "\",\"url\":\"" + httpPath + "\"}}";
                     //var jsonObject = JObject.Parse(("{\"aps\":{\"badge\":1,\"sound\":\"oven.caf\",\"alert\":\"" + (broadcastModel.Message + "\"}}")));
                     if (deviceToken != "")

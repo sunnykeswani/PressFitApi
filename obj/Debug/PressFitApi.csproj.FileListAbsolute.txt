@@ -79,5 +79,5 @@ C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\b
 C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Debug\PressFitApi.dll
 C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Debug\PressFitApi.pdb
 C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Debug\PressFitApi.csprojResolveAssemblyReference.cache
-C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Debug\PressFitApi.Migrations.tsetchanges.resources
+C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Debug\PressFitApi.Migrations.newdb.resources
 C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Debug\PressFitApi.csproj.GenerateResource.Cache

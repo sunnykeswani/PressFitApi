@@ -15,27 +15,37 @@
 
         $('#ImageUpload').change(ValidateImageFileUpload);
         $('#PdfUpload').change(ValidatePdfFileUpload);
-        $('#btnSubmit').click(ShowMessage);
+        //$('#btnSubmit').click(ShowMessage);
+
+        $("#fileName").change(function () {
+            ShowRequired();
+        });
 
     });
 
     function Broadcast(msg) {
         if (msg) {
-            //document.getElementById('hiddenValue').value = true;
+            $("#editForm").submit();
             return true;
         } else {
             document.getElementById('hiddenValue').value = false;
+            $("#editForm").submit();
             return true;
         }
+
     }
 
     function ShowMessage() {
-        if (document.getElementById('hiddenValue').value == "true") {
-            // dialog show
-            $('#myModal').modal('toggle');
+        $('#myModal').modal('toggle');
 
-            return true;
-        }
+        return true;
+    }
+
+    function ShowRequired() {
+        $("#ImageUpload").prop('required', true);
+        $("#PdfUpload").prop('required', true);
+
+
         return true;
     }
 
@@ -85,6 +95,7 @@
                     }
                     reader.readAsDataURL(fuData.files[0]);
                     document.getElementById('hiddenValue').value = true;
+                    ShowMessage();
                 }
             }
             else {
@@ -138,7 +149,7 @@
 
 
 
-@using (Html.BeginForm("Edit", "Products1", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Edit", "Products1", FormMethod.Post, new { enctype = "multipart/form-data", name = "editForm", id = "editForm" }))
 {
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
@@ -168,14 +179,15 @@
         <div class="form-group">
             @Html.LabelFor(model => model.FileName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.FileName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.FileName, new { htmlAttributes = new { @class = "form-control", id = "fileName" } })
                 @Html.ValidationMessageFor(model => model.FileName, "", new { @class = "text-danger" })
+                @*var fileValue= @Model.FileName.ToString()*@
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-md-2">Image Upload</label>
-            @*@Html.LabelFor(model => model.ModifiedDate, htmlAttributes: new { @class = "control-label col-md-2" })*@
+
             <div class="col-md-10">
                 <input type="file" name="ImageUpload" id="ImageUpload" accept="image/x-png,image/jpeg" /><br />
                 @Html.ValidationMessageFor(x => x.ImageUpload, "", new { @class = "text-danger" })
@@ -184,7 +196,7 @@
 
         <div class="form-group">
             <label class="control-label col-md-2">Pdf Upload</label>
-            @*@Html.LabelFor(model => model.CreatedDate, htmlAttributes: new { @class = "control-label col-md-2" })*@
+
             <div class="col-md-10">
                 <input type="file" name="PdfUpload" id="PdfUpload" accept="application/pdf" /><br />
                 @Html.ValidationMessageFor(x => x.PdfUpload, "", new { @class = "text-danger" })
@@ -243,14 +255,16 @@
             <div class="col-md-offset-2 col-md-10">
                 @*<input type="submit" id="submitButton" value="Save" class="btn btn-default" />*@
                 <input value="false" id="hiddenValue" name="hiddenValue" type="hidden">
+                @*   <input type="button" value="Save" class="btn btn-default" id="btnSubmit" />*@
+
                 <input type="submit" value="Save" class="btn btn-default" id="btnSubmit" />
 
                 @*<button type="button" id="btnClick" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                         Open modal
                     </button>*@
                 @*<button type="button" id="btnClick" class="btn btn-primary">
-                    Open modal
-                </button>*@
+                        Open modal
+                    </button>*@
             </div>
         </div>
     </div>

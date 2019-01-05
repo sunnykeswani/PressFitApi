@@ -130,7 +130,7 @@
             <label class="control-label col-md-2">Image Upload</label>
             @*@Html.LabelFor(model => model.ModifiedDate, htmlAttributes: new { @class = "control-label col-md-2" })*@
             <div class="col-md-10">
-                <input type="file" name="ImageUpload" id="ImageUpload" accept="image/x-png,image/jpeg" /><br />
+                <input type="file" name="ImageUpload" id="ImageUpload" accept="image/x-png,image/jpeg" required /><br />
                 @Html.ValidationMessageFor(x => x.ImageUpload, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -139,7 +139,7 @@
             <label class="control-label col-md-2">Pdf Upload</label>
             @*@Html.LabelFor(model => model.CreatedDate, htmlAttributes: new { @class = "control-label col-md-2" })*@
             <div class="col-md-10">
-                <input type="file" name="PdfUpload" id="PdfUpload" accept="application/pdf" /><br />
+                <input type="file" name="PdfUpload" id="PdfUpload" accept="application/pdf"  required /><br />
                 @Html.ValidationMessageFor(x => x.PdfUpload, "", new { @class = "text-danger" })
             </div>
         </div>

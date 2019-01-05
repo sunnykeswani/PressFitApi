@@ -52,6 +52,12 @@
                 @Html.DisplayNameFor(model => model.FileName)
             </th>
             <th>
+                Pdf Size
+            </th>
+            <th>
+                Image Size
+            </th>
+            <th>
                 Priority
             </th>
 
@@ -70,6 +76,14 @@
 
                 <td>
                     @Html.DisplayFor(modelItem => item.FileName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.PdfSize)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImageSize)
                 </td>
 
                 <td>

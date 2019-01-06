@@ -22,15 +22,20 @@
                 </button>
                 @Html.ActionLink("Press Fit", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
+
             <div class="navbar-collapse collapse">
+@if (User.Identity.IsAuthenticated)
+{
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Products", "Index", "Products1")</li>
                     <li>@Html.ActionLink("Banners", "Index", "Banners")</li>
                     <li>@Html.ActionLink("Broadcast", "Index", "Broadcast")</li>
                     @*<li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
                 </ul>
+                }
                 @Html.Partial("_LoginPartial")
             </div>
+
         </div>
     </div>
     <div class="container body-content">

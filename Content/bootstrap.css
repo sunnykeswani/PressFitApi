@@ -57,6 +57,8 @@ html {
       -ms-text-size-adjust: 100%;
 }
 
+
+
 body {
   margin: 0;
 }
@@ -6727,6 +6729,19 @@ td.hidden-lg {
   display: table-cell !important;
 }
 
+/*manually added*/
+.loginbtn{
+    position:absolute;
+    top:5%;
+    left:80%;
+    width:10%;
+    font-size: 24px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    background-color: rgba(0, 0, 0, 0.5);
+    border-color:#555555;
+
+}
+
 @media (max-width: 767px) {
   .hidden-lg.hidden-xs {
     display: none !important;
@@ -6814,3 +6829,6 @@ td.visible-print {
     display: none !important;
   }
 }
+
+
+

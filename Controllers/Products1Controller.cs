@@ -18,7 +18,7 @@ using System.Text;
 
 namespace PressFitApi.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class Products1Controller : Controller
     {
         private PressFitApiContext db = new PressFitApiContext();
@@ -78,11 +78,14 @@ namespace PressFitApi.Controllers
                         Product objProduct = new Product();
                         var pdfPath = Server.MapPath("~/PdfUploads/" + item.FileName + ".pdf");
                         var imagePath = Server.MapPath("~/ImageUploads/" + item.FileName + ".png");
-                        double pdfLength = new System.IO.FileInfo(pdfPath).Length / (1024*1024);
-                        double imgLength = new System.IO.FileInfo(imagePath).Length / (1024 * 1024);
+                        float pdfLengthBytes = new System.IO.FileInfo(pdfPath).Length;
+                        float imgLengthBytes = new System.IO.FileInfo(imagePath).Length;
+
+                        float pdfLengthMB= pdfLengthBytes / (1024 * 1024);
+                        float imgLengthMB = imgLengthBytes / (1024 * 1024);
                         objProduct = item;
-                        objProduct.PdfSize = pdfLength;
-                        objProduct.ImageSize = imgLength;
+                        objProduct.PdfSize = Math.Round(pdfLengthMB,2);
+                        objProduct.ImageSize = Math.Round(imgLengthMB,2);
                         lstProductSize.Add(objProduct);
                     }
 

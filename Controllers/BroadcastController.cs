@@ -15,7 +15,7 @@ using System.Web.Mvc;
 
 namespace PressFitApi.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class BroadcastController : Controller
     {
         private PressFitApiContext db = new PressFitApiContext();

@@ -81,11 +81,11 @@ namespace PressFitApi.Controllers
                         float pdfLengthBytes = new System.IO.FileInfo(pdfPath).Length;
                         float imgLengthBytes = new System.IO.FileInfo(imagePath).Length;
 
-                        float pdfLengthMB= pdfLengthBytes / (1024 * 1024);
+                        float pdfLengthMB = pdfLengthBytes / (1024 * 1024);
                         float imgLengthMB = imgLengthBytes / (1024 * 1024);
                         objProduct = item;
-                        objProduct.PdfSize = Math.Round(pdfLengthMB,2);
-                        objProduct.ImageSize = Math.Round(imgLengthMB,2);
+                        objProduct.PdfSize = Math.Round(pdfLengthMB, 2);
+                        objProduct.ImageSize = Math.Round(imgLengthMB, 2);
                         lstProductSize.Add(objProduct);
                     }
 
@@ -149,12 +149,16 @@ namespace PressFitApi.Controllers
 
                     db.Product.Add(product);
                     db.SaveChanges();
-
+                    bool printFlag = false;
                     //****** to save files******
                     foreach (string file in Request.Files)
                     {
+                        if (file == "PrintPdfUpload")
+                        {
+                            printFlag = true;
+                        }
                         HttpPostedFileBase uploadedFile = Request.Files[file];
-                        SaveFile(uploadedFile, ref product);
+                        SaveFile(uploadedFile, ref product, printFlag);
                         //Save file here
                     }
                     return RedirectToAction("Index");
@@ -168,63 +172,118 @@ namespace PressFitApi.Controllers
             }
         }
 
-        private void SaveFile(HttpPostedFileBase file, ref Product product)
+        private void SaveFile(HttpPostedFileBase file, ref Product product, bool flag)
         {
             try
             {
 
                 var pdfPath = Server.MapPath("~/PdfUploads");
                 var imagePath = Server.MapPath("~/ImageUploads");
-
-                if (!Directory.Exists(pdfPath))
-                {
-                    Directory.CreateDirectory(pdfPath);
-                }
-
-                if (!Directory.Exists(imagePath))
-                {
-                    Directory.CreateDirectory(imagePath);
-                }
+                var oldFileName = string.Empty;
+                var newFileName = string.Empty;
 
                 if (file.ContentLength > 0 && file.ContentType.Contains("pdf"))
                 {
-
-                    var oldFileName = Path.GetFileName(file.FileName);
-                    var newFileName = product.FileName.ToString() + ".pdf";
-
-                    var oldpath = Path.Combine(Server.MapPath("~/PdfUploads"), oldFileName);
-                    var newpath = Path.Combine(Server.MapPath("~/PdfUploads"), newFileName);
-
-                    DeleteExistFile(oldpath);
-                    DeleteExistFile(newpath);
-                    file.SaveAs(oldpath);
-
-                    System.IO.File.Move(oldpath, newpath);
-
-
-
-
-                    //Microsoft.VisualBasic.FileIO.FileSystem.RenameFile(myfile, newName);
-
-                    // file.SaveAs(path);
+                    if (flag)
+                    {
+                        pdfPath = Server.MapPath("~/PrintPdfUploads");
+                        oldFileName = Path.GetFileName("print_" + file.FileName);
+                        newFileName = "print_" + product.FileName.ToString() + ".pdf";
+                    }
+                    else
+                    {
+                        oldFileName = Path.GetFileName(file.FileName);
+                        newFileName = product.FileName.ToString() + ".pdf";
+                    }
+                    SaveInFolder(pdfPath, oldFileName, newFileName, file);
                 }
-                else if (file.ContentLength > 0 && file.ContentType.Contains("image"))
+                else if (file.ContentType.Contains("image"))
                 {
-
-
-                    var oldFileName = Path.GetFileName(file.FileName);
-                    var newFileName = product.FileName.ToString() + ".png";
-
-                    var oldpath = Path.Combine(Server.MapPath("~/ImageUploads"), oldFileName);
-                    var newpath = Path.Combine(Server.MapPath("~/ImageUploads"), newFileName);
-
-                    DeleteExistFile(oldpath);
-                    DeleteExistFile(newpath);
-                    file.SaveAs(oldpath);
-
-                    System.IO.File.Move(oldpath, newpath);
-
+                    oldFileName = Path.GetFileName(file.FileName);
+                    newFileName = product.FileName.ToString() + ".png";
+                    SaveInFolder(imagePath, oldFileName, newFileName, file);
                 }
+
+
+                //var pdfPath = Server.MapPath("~/PdfUploads");
+                //if (file.ContentType.Contains("pdf"))
+                //{
+                //    if (flag)
+                //    {
+                //        pdfPath = Server.MapPath("~/PrintPdfUploads");
+                //    }
+                //}
+
+
+                //var printPdfPath = Server.MapPath("~/PrintPdfUploads");
+
+                //if (!Directory.Exists(pdfPath))
+                //{
+                //    Directory.CreateDirectory(pdfPath);
+                //}
+
+                //if (!Directory.Exists(imagePath))
+                //{
+                //    Directory.CreateDirectory(imagePath);
+                //}
+
+                //*******To upload print pdf file ******
+                //if (flag)
+                //{
+                //    if (file.ContentLength > 0 && file.ContentType.Contains("pdf"))
+                //    {
+
+                //        //var oldFileName = Path.GetFileName("print_" + file.FileName);
+                //        // var newFileName = "print_" + product.FileName.ToString() + ".pdf";
+
+                //        //var oldpath = Path.Combine(Server.MapPath("~/PdfUploads"), oldFileName);
+                //        //var newpath = Path.Combine(Server.MapPath("~/PdfUploads"), newFileName);
+
+                //        var oldpath = Path.Combine(pdfPath, oldFileName);
+                //        var newpath = Path.Combine(pdfPath, newFileName);
+
+                //        DeleteExistFile(oldpath);
+                //        DeleteExistFile(newpath);
+                //        file.SaveAs(oldpath);
+
+                //        System.IO.File.Move(oldpath, newpath);
+                //    }
+                //}
+                //else if (file.ContentLength > 0 && file.ContentType.Contains("pdf"))
+                //{
+
+                    // var oldFileName = Path.GetFileName(file.FileName);
+                    //var newFileName = product.FileName.ToString() + ".pdf";
+
+                    //var oldpath = Path.Combine(Server.MapPath("~/PdfUploads"), oldFileName);
+                    //var newpath = Path.Combine(Server.MapPath("~/PdfUploads"), newFileName);
+
+                //    var oldpath = Path.Combine(pdfPath, oldFileName);
+                //    var newpath = Path.Combine(pdfPath, newFileName);
+
+                //    DeleteExistFile(oldpath);
+                //    DeleteExistFile(newpath);
+                //    file.SaveAs(oldpath);
+
+                //    System.IO.File.Move(oldpath, newpath);
+                //}
+                //else if (file.ContentLength > 0 && file.ContentType.Contains("image"))
+                //{
+
+
+                //    var oldFileName = Path.GetFileName(file.FileName);
+                //    var newFileName = product.FileName.ToString() + ".png";
+
+                //    var oldpath = Path.Combine(Server.MapPath("~/ImageUploads"), oldFileName);
+                //    var newpath = Path.Combine(Server.MapPath("~/ImageUploads"), newFileName);
+
+                //    DeleteExistFile(oldpath);
+                //    DeleteExistFile(newpath);
+                //    file.SaveAs(oldpath);
+
+                //    System.IO.File.Move(oldpath, newpath);
+
+                //}
             }
             catch (Exception ex)
             {
@@ -232,7 +291,22 @@ namespace PressFitApi.Controllers
             }
         }
 
+        private void SaveInFolder(string filePath, string oldFile, string NewFile, HttpPostedFileBase file)
+        {
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+            }
 
+            var oldpath = Path.Combine(filePath, oldFile);
+            var newpath = Path.Combine(filePath, NewFile);
+
+            DeleteExistFile(oldpath);
+            DeleteExistFile(newpath);
+            file.SaveAs(oldpath);
+
+            System.IO.File.Move(oldpath, newpath);
+        }
 
         private void DeleteExistFile(string path)
         {
@@ -291,12 +365,13 @@ namespace PressFitApi.Controllers
                 // DeleteFile(product);
                 Boolean currentHiddenvalue = Convert.ToBoolean(Request.Form["hiddenValue"]);
                 //****** to save files******
+                bool printFlag = false;
                 foreach (string file in Request.Files)
                 {
                     HttpPostedFileBase uploadedFile = Request.Files[file];
                     if (uploadedFile.ContentLength != 0)
                     {
-                        SaveFile(uploadedFile, ref product);
+                        SaveFile(uploadedFile, ref product, printFlag);
                     }
                     //Save file here
                 }
@@ -377,10 +452,14 @@ namespace PressFitApi.Controllers
 
 
                     //Get Certificate
-                    var appleCert = System.IO.File.ReadAllBytes(Server.MapPath("~/Files/APNS_PROD_Certificates.p12"));
+                    //var appleCert = System.IO.File.ReadAllBytes(Server.MapPath("~/Files/APNS_PROD_Certificates.p12"));
+                    var appleCert = System.IO.File.ReadAllBytes(Server.MapPath("~/Files/APNS_DEV_Certificates.p12"));
+
 
                     // Configuration (NOTE: .pfx can also be used here)
-                    var config = new ApnsConfiguration(ApnsConfiguration.ApnsServerEnvironment.Production, appleCert, "");
+                    // var config = new ApnsConfiguration(ApnsConfiguration.ApnsServerEnvironment.Production, appleCert, "");
+                    var config = new ApnsConfiguration(ApnsConfiguration.ApnsServerEnvironment.Sandbox, appleCert, "");
+
 
                     // Create a new broker
                     var apnsBroker = new ApnsServiceBroker(config);
@@ -525,17 +604,20 @@ namespace PressFitApi.Controllers
             {
 
                 var pdfPath = Server.MapPath("~/PdfUploads");
+                var printPdfPath = Server.MapPath("~/PrintPdfUploads");
                 var imagePath = Server.MapPath("~/ImageUploads");
 
 
-
                 var pdfFileName = product.FileName.ToString() + ".pdf";
+                var printPdfFileName = "print_"+product.FileName.ToString() + ".pdf";
                 var imageFileName = product.FileName.ToString() + ".png";
 
                 var pdfFilePath = Path.Combine(Server.MapPath("~/PdfUploads"), pdfFileName);
+                var printPdfFilePath = Path.Combine(Server.MapPath("~/PrintPdfUploads"), printPdfFileName);
                 var imageFilePath = Path.Combine(Server.MapPath("~/ImageUploads"), imageFileName);
 
                 DeleteExistFile(pdfFilePath);
+                DeleteExistFile(printPdfFilePath);
                 DeleteExistFile(imageFilePath);
 
             }
@@ -597,6 +679,53 @@ namespace PressFitApi.Controllers
             //return string.Format("Invalid file type. File Types supported are ");
         }
 
+
+        // GET: Products1/Delete/5
+        public ActionResult FileEdit(int? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Product product = db.Product.Find(id);
+                if (product == null)
+                {
+                    return HttpNotFound();
+                }
+                return View("FileEdit", product);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public ActionResult FileEditName([Bind(Include = "Id,FileName")] Product product)
+        {
+            try
+            {
+                string updatedFileName = product.FileName;
+
+                Product objProduct = db.Product.Find(product.Id);
+                string previousFileName = objProduct.FileName;
+                objProduct.FileName = updatedFileName;
+                //****** to save files******
+
+                db.Entry(objProduct).State = EntityState.Modified;
+                db.SaveChanges();
+
+
+                return RedirectToAction("Index");
+                // }
+                //return View(product);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 
     }

@@ -6,27 +6,43 @@
 
 <script>
     $(document).ready(function () {
-        
+
         $("input[name='item.HighPriority']").change(
 
             function (e) {
                 // code here to hide your text
 
                 var checked = $(this).attr('checked');
-                
-                    //alert('hello');
-                    $.post('Products1/UpdatePriority', { id: e.target.id },
-        function (returnedData) {
-            console.log(returnedData);
-        }).fail(function () {
-            console.log("error");
-        });
+
+                //alert('hello');
+                $.post('Products1/UpdatePriority', { id: e.target.id },
+    function (returnedData) {
+        console.log(returnedData);
+    }).fail(function () {
+        console.log("error");
+    });
 
             }
        );
 
 
     });
+
+    function Broadcast(msg) {
+        if (msg) {
+            document.getElementById('hiddenValue').value = true;
+            //$("#editForm").submit();
+            return true;
+        } else {
+            document.getElementById('hiddenValue').value = false;
+            //$("#editForm").submit();
+            return true;
+        }
+    }
+
+    function ShowDialog(id) {
+
+    }
 </script>
 
 @using (Html.BeginForm("Create", "Products1", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -52,6 +68,12 @@
                 @Html.DisplayNameFor(model => model.FileName)
             </th>
             <th>
+                Pdf Size(Mb)
+            </th>
+            <th>
+                Image Size(Mb)
+            </th>
+            <th>
                 Priority
             </th>
 
@@ -73,6 +95,14 @@
                 </td>
 
                 <td>
+                    @Html.DisplayFor(modelItem => item.PdfSize)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImageSize)
+                </td>
+
+                <td>
                     @Html.DisplayFor(modelItem => item.PriorityNumber)
                 </td>
 
@@ -80,11 +110,15 @@
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                     @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+                    @*<input type="button" title="FileEdit" value="FileEdit" onclick="ShowDialog(item.Id);" />*@
+                    @Html.ActionLink("File Edit", "FileEdit", new { id = item.Id })
+
                 </td>
             </tr>
-        }
 
+
+        }
 
     </table>
 

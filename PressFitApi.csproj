@@ -231,17 +231,19 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BannersController.cs" />
     <Compile Include="Controllers\BroadcastController.cs" />
+    <Compile Include="Controllers\ContactUsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\Products1Controller.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\TokenApiController.cs" />
+    <Compile Include="Controllers\VersionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201812090813310_newdb.cs" />
-    <Compile Include="Migrations\201812090813310_newdb.Designer.cs">
-      <DependentUpon>201812090813310_newdb.cs</DependentUpon>
+    <Compile Include="Migrations\201901290124505_Initial.cs" />
+    <Compile Include="Migrations\201901290124505_Initial.Designer.cs">
+      <DependentUpon>201901290124505_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -252,6 +254,7 @@
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductBanner.cs" />
     <Compile Include="Models\Token.cs" />
+    <Compile Include="Models\VersionModel.cs" />
     <Compile Include="PressFitApiContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -263,6 +266,7 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Images\PressFitImg.jpg" />
+    <Content Include="Content\pressfit.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -339,6 +343,8 @@
     <None Include="Properties\PublishProfiles\PressFitApiDB1 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PressfitAzure - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\PressfitAzure - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\pressfitazureapp - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\pressfitazureapp - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PressFitIndia.pubxml" />
     <None Include="Properties\PublishProfiles\PressFitSantosh.pubxml" />
     <None Include="Properties\PublishProfiles\Santosh.pubxml" />
@@ -407,6 +413,17 @@
     <Content Include="Views\Banners\Create.cshtml" />
     <Content Include="Views\Banners\Delete.cshtml" />
     <Content Include="Views\Banners\Edit.cshtml" />
+    <Content Include="Views\Products1\FileEdit.cshtml" />
+    <Content Include="Views\VersionEdit\Create.cshtml" />
+    <Content Include="Views\VersionEdit\Delete.cshtml" />
+    <Content Include="Views\VersionEdit\Details.cshtml" />
+    <Content Include="Views\VersionEdit\Edit.cshtml" />
+    <Content Include="Views\VersionEdit\Index.cshtml" />
+    <Content Include="Views\Version\Create.cshtml" />
+    <Content Include="Views\Version\Delete.cshtml" />
+    <Content Include="Views\Version\Details.cshtml" />
+    <Content Include="Views\Version\Edit.cshtml" />
+    <Content Include="Views\Version\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Image Uploads\" />
@@ -414,6 +431,7 @@
     <Folder Include="BannerUploads\" />
     <Folder Include="ImageUploads\" />
     <Folder Include="PdfUploads\" />
+    <Folder Include="Pressfit\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -423,8 +441,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201812090813310_newdb.resx">
-      <DependentUpon>201812090813310_newdb.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201901290124505_Initial.resx">
+      <DependentUpon>201901290124505_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

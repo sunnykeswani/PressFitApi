@@ -45,6 +45,9 @@ namespace PressFitApi.Models
         [NotMapped]
         public HttpPostedFileBase PdfUpload { get; set; }
 
+        [NotMapped]
+        public HttpPostedFileBase PrintPdfUpload { get; set; }
+
         [Required]
         //[RegularExpression(@"^\S*$", ErrorMessage = "No white space allowed")]
         [Display(Name = "File Name")]

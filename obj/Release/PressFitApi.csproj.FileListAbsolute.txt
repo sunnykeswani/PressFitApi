@@ -80,4 +80,4 @@ C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\o
 C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Release\PressFitApi.dll
 C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Release\PressFitApi.pdb
 C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Release\PressFitApi.csprojResolveAssemblyReference.cache
-C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Release\PressFitApi.Migrations.newdb.resources
+C:\Users\Santosh\documents\visual studio 2015\Projects\PressFitApi\PressFitApi\obj\Release\PressFitApi.Migrations.Initial.resources

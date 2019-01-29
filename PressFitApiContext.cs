@@ -32,5 +32,7 @@ public class PressFitApiContext : DbContext
 
     public System.Data.Entity.DbSet<PressFitApi.Models.Token> Token { get; set; }
 
+    public System.Data.Entity.DbSet<PressFitApi.Models.VersionModel> VersionModel { get; set; }
+
     //public System.Data.Entity.DbSet<PressFitApi.Models.Token> TokenModels { get; set; }
 }

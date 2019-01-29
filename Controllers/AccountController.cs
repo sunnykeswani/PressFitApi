@@ -136,11 +136,11 @@ namespace PressFitApi.Controllers
 
         //
         // GET: /Account/Register
-        //[AllowAnonymous]
-        //public ActionResult Register()
-        //{
-        //    return View();
-        //}
+        [AllowAnonymous]
+        public ActionResult Register()
+        {
+            return View();
+        }
 
         //
         // POST: /Account/Register

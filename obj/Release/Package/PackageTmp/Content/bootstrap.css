@@ -57,6 +57,8 @@ html {
       -ms-text-size-adjust: 100%;
 }
 
+
+
 body {
   margin: 0;
 }
@@ -1714,6 +1716,10 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .form-control::-webkit-input-placeholder {
   color: #999999;
+}
+
+.hide{
+    display:none;
 }
 
 .form-control {
@@ -6727,6 +6733,8 @@ td.hidden-lg {
   display: table-cell !important;
 }
 
+
+
 @media (max-width: 767px) {
   .hidden-lg.hidden-xs {
     display: none !important;
@@ -6814,3 +6822,6 @@ td.visible-print {
     display: none !important;
   }
 }
+
+
+

@@ -7,13 +7,13 @@ namespace PressFitApi.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Initial : IMigrationMetadata
+    public sealed partial class versionmodelupdate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(versionmodelupdate));
         
         string IMigrationMetadata.Id
         {
-            get { return "201901290124505_Initial"; }
+            get { return "201902030335271_versionmodelupdate"; }
         }
         
         string IMigrationMetadata.Source

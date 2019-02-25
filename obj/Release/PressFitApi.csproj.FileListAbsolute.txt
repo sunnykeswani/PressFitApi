@@ -76,8 +76,8 @@ C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\b
 C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Release\PressFitApi.csproj.GenerateResource.Cache
 C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Release\PressFitApi.dll
 C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Release\PressFitApi.pdb
 C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Release\PressFitApi.csprojResolveAssemblyReference.cache
-C:\Users\Santosh\documents\visual studio 2015\Projects\PressFitApi\PressFitApi\obj\Release\PressFitApi.Migrations.Initial.resources
+C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Release\PressFitApi.Migrations.test.resources
+C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Release\PressFitApi.csproj.GenerateResource.Cache

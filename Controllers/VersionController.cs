@@ -88,7 +88,7 @@ namespace PressFitApi.Controllers
                        .OrderByDescending(p => p.UpdatedOn)
                        .FirstOrDefault();
                 //string previousVersion = db.Versions.Find(versionModel);
-                string AndriodValue = VersionMatch(lastVersionModel.AndriodVersion, versionModel.AndriodVersion, versionModel.ForceFulAndriodUpdate, lastVersionModel.Id);
+                string AndriodValue = VersionMatch(lastVersionModel.AndriodVersion, versionModel.AndriodVersion,versionModel.ForceFulAndriodUpdate, lastVersionModel.Id);
                 string IOSValue = VersionMatch(lastVersionModel.IOSVersion, versionModel.IOSVersion, versionModel.ForceFulIOSUpdate, lastVersionModel.Id);
                 versionModel.UpdatedOn = DateTime.Now;
                 //db.Entry(versionModel).State = EntityState.Modified;

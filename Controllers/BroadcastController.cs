@@ -124,8 +124,8 @@ namespace PressFitApi.Controllers
             {
                 string[] TokenIds = getIOSTokenId();
                 //Get Certificate
-                var appleCert = System.IO.File.ReadAllBytes(Server.MapPath("~/Files/APNS_PROD_Certificates.p12"));
-
+                 var appleCert = System.IO.File.ReadAllBytes(Server.MapPath("~/Files/APNS_PROD_Certificates.p12"));
+                //var appleCert = System.IO.File.ReadAllBytes(Server.MapPath("~/Files/APNS_DEV_Certificates.p12"));
                 // Configuration (NOTE: .pfx can also be used here)
                 var config = new ApnsConfiguration(ApnsConfiguration.ApnsServerEnvironment.Production, appleCert, "");
 

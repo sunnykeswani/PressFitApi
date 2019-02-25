@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -89,9 +90,12 @@ namespace PressFitApi.Controllers
                 {
                     var oldFileName = Path.GetFileName(uploadFile.FileName);
                     string[] filenames = oldFileName.Split('.');
-                    var newFileName = filenames[0] + ".png";
 
-                    var oldpath = Path.Combine(Server.MapPath("~/BannerUploads"), oldFileName);
+
+                    var existingFileName = Regex.Replace(filenames[0], @"[^0-9a-zA-Z]+", "") +"_"+ DateTime.Now.Date.ToString("yyyyMMdd")+"."+ filenames[1];
+                    var newFileName = Regex.Replace(filenames[0], @"[^0-9a-zA-Z]+", "") +"_"+ DateTime.Now.Date.ToString("yyyyMMdd") + ".png";
+
+                    var oldpath = Path.Combine(Server.MapPath("~/BannerUploads"), existingFileName);
                     var newpath = Path.Combine(Server.MapPath("~/BannerUploads"), newFileName);
 
                     DeleteExistFile(oldpath);
@@ -176,7 +180,7 @@ namespace PressFitApi.Controllers
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
         }
 

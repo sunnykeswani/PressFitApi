@@ -13,6 +13,7 @@
 
     $(document).ready(function () {
 
+
         $('#ImageUpload').change(ValidateImageFileUpload);
         $('#PdfUpload').change(ValidatePdfFileUpload);
         $('#PrintPdfUpload').change(ValidatePrintPdfFileUpload);
@@ -43,6 +44,27 @@
         return true;
     }
 
+    function CheckPdfValidation() {
+        var printPdf = document.getElementById('hiddenPrintPdfValue').value;
+        var pdf = document.getElementById('hiddenPdfValue').value;
+
+        if (printPdf && (pdf == "false")) {
+            //ShowRequired();
+            //$("#PdfUpload").prop('required', true);
+            $('#PdfUpload').after('<div class="text-danger" id="errMsg">Pdf is Required</div>');
+            return false;
+        } else if (pdf && (printPdf == "false")) {
+            $('#PrintPdfUpload').after('<div class="text-danger" id="errMsg">Pdf is Required</div>');
+            //ShowMessage();
+            return false;
+        }
+        else if (printPdf && pdf) {
+            //ShowMessage();
+        }
+        
+        //return true;
+    }
+
     function ShowRequired() {
         $("#ImageUpload").prop('required', true);
         $("#PdfUpload").prop('required', true);
@@ -70,6 +92,8 @@
     //}
 
     function ValidatePdfFileUpload() {
+        $("#errMsg").hide();
+        
         var fuData = document.getElementById('PdfUpload');
         var FileUploadPath = fuData.value;
 
@@ -96,13 +120,15 @@
                         $('#blah').attr('src', e.target.result);
                     }
                     reader.readAsDataURL(fuData.files[0]);
-                    document.getElementById('hiddenValue').value = true;
-                    //ShowMessage();
+                    document.getElementById('hiddenPdfValue').value = true;
+                    ShowMessage();
+                    CheckPdfValidation();
                 }
             }
             else {
                 document.getElementById("PdfUpload").value = "";
                 alert(" only allows file types of pdf format");
+                
 
             }
 
@@ -112,6 +138,8 @@
 
 
     function ValidatePrintPdfFileUpload() {
+
+        $("#errMsg").hide();
         var fuData = document.getElementById('PrintPdfUpload');
         var FileUploadPath = fuData.value;
 
@@ -138,8 +166,9 @@
                         $('#blah').attr('src', e.target.result);
                     }
                     reader.readAsDataURL(fuData.files[0]);
-                    document.getElementById('hiddenValue').value = true;
-                    ShowMessage();
+                    document.getElementById('hiddenPrintPdfValue').value = true;
+                    //ShowMessage();
+                    CheckPdfValidation();
                 }
             }
             else {
@@ -242,6 +271,7 @@
             <label class="control-label col-md-2">Pdf Upload</label>
 
             <div class="col-md-10">
+                <input value="false" id="hiddenPdfValue" name="hiddenPdfValue" type="hidden">
                 <input type="file" name="PdfUpload" id="PdfUpload" accept="application/pdf" /><br />
                 @Html.ValidationMessageFor(x => x.PdfUpload, "", new { @class = "text-danger" })
             </div>
@@ -252,7 +282,7 @@
             @*@Html.LabelFor(model => model.CreatedDate, htmlAttributes: new { @class = "control-label col-md-2" })*@
             <div class="col-md-10">
                 <input value="false" id="hiddenPrintPdfValue" name="hiddenPrintPdfValue" type="hidden">
-                <input type="file" name="PrintPdfUpload" id="PrintPdfUpload" accept="application/pdf" required /><br />
+                <input type="file" name="PrintPdfUpload" id="PrintPdfUpload" accept="application/pdf" /><br />
                 @Html.ValidationMessageFor(x => x.PrintPdfUpload, "", new { @class = "text-danger" })
             </div>
         </div>

@@ -28,7 +28,7 @@
 
     });
 
-    function Broadcast(msg) {
+    function FileEdit(msg) {
         if (msg) {
             document.getElementById('hiddenValue').value = true;
             //$("#editForm").submit();
@@ -40,8 +40,10 @@
         }
     }
 
-    function ShowDialog(id) {
+    var Id;
 
+    function ShowDialog(itemId) {
+        Id = itemId;
     }
 </script>
 
@@ -81,6 +83,7 @@
 
         @foreach (var item in Model)
         {
+            int itemId = item.Id;
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Title)
@@ -111,8 +114,12 @@
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                     @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
-                    @*<input type="button" title="FileEdit" value="FileEdit" onclick="ShowDialog(item.Id);" />*@
-                    @Html.ActionLink("File Edit", "FileEdit", new { id = item.Id })
+                    
+                    @*<input type="button" title="FileEdit" name="FileEdit" value="FileEdit"  onclick="ShowDialog(itemId);" />*@
+
+                    @Html.ActionLink("FileEdit", "FileEdit", new { id = item.Id },
+                 new { onclick = "return confirm('Caution! Changing the File Name could break the Hyperlinks on the Main Website. Do you still want to continue?');" })
+                    @*@Html.ActionLink("File Edit", "FileEdit", new { id = item.Id })*@
 
                 </td>
             </tr>
@@ -121,5 +128,27 @@
         }
 
     </table>
+
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <h4>Do you want to broadcast ?</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button><br />
+                    <button type="button" class="btn btn-primary" id="yesBtn" onclick="FileEdit(1)" data-dismiss="modal">Yes</button>
+                    <button type="button" class="btn btn-primary" id="noBtn" onclick="FileEdit(0)" data-dismiss="modal">No</button>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
 
 }

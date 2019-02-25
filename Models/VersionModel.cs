@@ -17,13 +17,21 @@ namespace PressFitApi.Models
         [Required]
         public string AndriodVersion { get; set; }
 
-        [Required]
-        public bool ForceFulAndriodUpdate { get; set; }
+        //[Required]
+        public Boolean ForceFulAndriodUpdate { get; set; }
 
-        [Required]
-        public bool ForceFulIOSUpdate { get; set; }
-
+        //[Required]
+        public Boolean ForceFulIOSUpdate { get; set; } 
 
         public DateTime UpdatedOn { get; set; }
+
+        //public VersionModel()
+        //{
+        //    ForceFulAndriodUpdate = false;
+        //    ForceFulIOSUpdate = false;
+        //}
+
+
+
     }
 }

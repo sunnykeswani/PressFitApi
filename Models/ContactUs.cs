@@ -18,7 +18,7 @@ namespace PressFitApi.Models
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        
         [NotMapped]
         [Phone]
         public string MobileNo { get; set; }

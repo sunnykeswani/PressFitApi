@@ -3,7 +3,7 @@ namespace PressFitApi.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initial : DbMigration
+    public partial class versionmodelupdate : DbMigration
     {
         public override void Up()
         {
@@ -22,6 +22,15 @@ namespace PressFitApi.Migrations
                         PdfUrl = c.String(),
                         HighPriority = c.Boolean(nullable: false),
                         PriorityNumber = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.Subject",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        SubjectLine = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -55,6 +64,7 @@ namespace PressFitApi.Migrations
         {
             DropTable("dbo.VersionModel");
             DropTable("dbo.Token");
+            DropTable("dbo.Subject");
             DropTable("dbo.Product");
         }
     }

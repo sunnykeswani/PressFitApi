@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using PressFitApi.Models;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace PressFitApi.Controllers
 {
@@ -87,6 +88,7 @@ namespace PressFitApi.Controllers
             return CreatedAtRoute("DefaultApi", new { id = product.Id }, product);
         }
 
+
         // POST: api/GetProductList
         //  [ResponseType(typeof(Product))]
         [Route("GetProductList")]
@@ -123,9 +125,8 @@ namespace PressFitApi.Controllers
                     db.SaveChanges();
                 }
 
-                ProductBanner objProductBanner = new ProductBanner();
-                //objProductBanner.ProductList = db.Product.OrderByDescending(x => x.HighPriority).ToList();
-                objProductBanner.ProductList = db.Product.OrderBy(x => x.PriorityNumber).ToList();
+                OldProductBanner objProductBanner = new OldProductBanner();
+                objProductBanner.ProductList = db.Product.OrderByDescending(x => x.HighPriority).ToList();
                 objProductBanner.Banner = new string[] { };
                 objProductBanner.Banner = getBannersPath();
 
@@ -136,6 +137,209 @@ namespace PressFitApi.Controllers
             catch (Exception ex)
             {
                 return InternalServerError(ex);
+            }
+        }
+
+
+        [Route("GetNewProductList")]
+        [HttpPost]
+
+        public IHttpActionResult GetNewProductList(Token token)
+        {
+
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                if (token.DeviceId == null)
+                {
+                    return BadRequest();
+                }
+
+                // Token objToken = db.Token.Find(token.DeviceId);
+
+                if (!db.Token.Any(o => o.DeviceId == token.DeviceId))
+                {
+                    db.Token.Add(token);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    //db.Token = token;
+                    var tokenRecord = db.Token.Where(x => x.DeviceId == token.DeviceId).FirstOrDefault();
+                    tokenRecord.ChannelId = token.ChannelId;
+                    tokenRecord.TokenId = token.TokenId;
+                    //  db.Entry(token).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
+                ProductBanner objProductBanner = new ProductBanner();
+                objProductBanner.ProductList = db.Product.OrderBy(x => x.PriorityNumber).ToList();
+                objProductBanner.BannerList = new List<BannerList>();
+                objProductBanner.ImageList = new List<ImageList>();
+
+                //BannerList objBannerList = new BannerList();
+                //List<BannerList> lstBannerList = new List<BannerList>();
+
+                //lstBannerList.
+                //objProductBanner.Banner = new string[] { };
+                //objProductBanner.Banner = getBannersPath();
+                objProductBanner.BannerList = getNewBannersPath();
+
+                getPdfModifiedDate(objProductBanner.ProductList);
+                //getBannerModifiedDate(objProductBanner.BannerList);
+                getImageModifiedDate(objProductBanner.ProductList);
+
+                //***** version comparison *****
+                var lastVersionModel = db.VersionModel
+                      .OrderByDescending(p => p.UpdatedOn)
+                      .FirstOrDefault();
+
+                //string UpdateStatus;
+
+                if (token.ChannelId.ToLower() == "ios")
+                {
+                    objProductBanner.UpdateStatus = VersionMatch(lastVersionModel.IOSVersion, token.Version, lastVersionModel.ForceFulIOSUpdate, lastVersionModel.Id);
+                }
+                else
+                {
+                    objProductBanner.UpdateStatus = VersionMatch(lastVersionModel.AndriodVersion, token.Version, lastVersionModel.ForceFulAndriodUpdate, lastVersionModel.Id);
+                }
+
+                //string AndriodValue = VersionMatch(lastVersionModel.AndriodVersion, token.Version, lastVersionModel.ForceFulAndriodUpdate, lastVersionModel.Id);
+                //getImageDate(objProductBanner);
+
+                return Ok(objProductBanner);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        //private void getImageDate(ProductBanner objProductBanner)
+        //{
+
+        //    try
+        //    {
+        //        var files = Directory.GetFiles(System.Web.Hosting.HostingEnvironment.MapPath("~/ImageUploads")).ToList();
+
+        //        for (int i = 0; i < files.Count; i++)
+        //        {
+        //            ImageList objImageList = new ImageList();
+        //            FileInfo fi = new FileInfo(files[i]);
+
+        //            if (fi.Name.ToLower() == objProductBanner.ProductList[i].FileName.ToLower())
+        //            {
+        //                objProductBanner.ProductList[i].ImageModifiedDate = fi.LastWriteTime;
+        //                objProductBanner.ProductList[i].ImageUrl = files[i].ToString();
+        //            }
+        //            //lstImageList.Add(objImageList);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
+        //}
+
+        //private void getImageModifiedDate(List<ImageList> lstImageList)
+        //{
+        //    try
+        //    {
+
+        //        var files = Directory.GetFiles(System.Web.Hosting.HostingEnvironment.MapPath("~/ImageUploads")).ToList();
+
+        //        for (int i = 0; i < files.Count; i++)
+        //        {
+        //            ImageList objImageList = new ImageList();
+        //            FileInfo fi = new FileInfo(files[i]);
+        //            objImageList.ImageModifiedDate = fi.LastWriteTime;
+        //            objImageList.Image = files[i].ToString();
+        //            lstImageList.Add(objImageList);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw;
+        //    }
+        //}
+
+        private void getImageModifiedDate(List<Product> productList)
+        {
+            try
+            {
+                var files = Directory.GetFiles(System.Web.Hosting.HostingEnvironment.MapPath("~/ImageUploads")).ToList();
+                foreach (var item in files)
+                {
+                    FileInfo fi = new FileInfo(item);
+                    var lastmodified = fi.LastWriteTime;
+                    var filename = fi.Name.Replace(".png", "");
+
+                    var flag = productList.Any(x => x.FileName == filename);
+
+                    //if (flag)
+                    //{
+                    //    var modifiedDate=productList.Where(x => x.FileName == filename).ToDictionary(x => x.ModifiedDate) ;
+                    //    MyObject found;
+                    //    if (modifiedDate.TryGetValue(lastmodified, out found)) found.OtherProperty = newValue;
+                    //}
+
+                    if (flag)
+                    {
+                        foreach (var obj in productList)
+                        {
+                            if (obj.FileName == filename)
+                            {
+                                obj.ImageUrl = item.ToString();
+                                obj.ImageModifiedDate = lastmodified;
+                                break;
+                            }
+                        }
+                    }
+
+                    //productList.Where(x=>x.FileName)
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private void getBannerModifiedDate(List<BannerList> lstBannerList)
+        {
+            try
+            {
+                var files = Directory.GetFiles(System.Web.Hosting.HostingEnvironment.MapPath("~/BannerUploads")).ToList();
+
+                BannerList objBanner;
+                //foreach (var item in files)
+                //{
+                //    FileInfo fi = new FileInfo(item);
+                //    var lastmodified = fi.LastWriteTime;
+                //}
+
+                for (int i = 0; i < files.Count; i++)
+                {
+                    //objBanner = new BannerList();
+                    FileInfo fi = new FileInfo(files[i]);
+                    //objBanner.Banner = fi.ToString();
+                    // objBanner.BannerModifiedDate = fi.LastWriteTime;
+                    lstBannerList[i].BannerModifiedDate = fi.LastWriteTime;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
 
@@ -233,6 +437,7 @@ namespace PressFitApi.Controllers
             return db.Product.Count(e => e.Id == id) > 0;
         }
 
+
         private string[] getBannersPath()
         {
             var localPaths = Directory.GetFiles(System.Web.Hosting.HostingEnvironment.MapPath("~/BannerUploads")).Select(f => Path.GetFileName(f)).ToList();
@@ -254,6 +459,90 @@ namespace PressFitApi.Controllers
             {
                 return new string[0];
             }
+        }
+
+
+        private List<BannerList> getNewBannersPath()
+        {
+            BannerList objBannerList;
+            List<BannerList> lstBannerList = new List<BannerList>();
+
+            var localPaths = Directory.GetFiles(System.Web.Hosting.HostingEnvironment.MapPath("~/BannerUploads")).Select(f => Path.GetFileName(f)).ToList();
+
+            if (localPaths.Count > 0)
+            {
+                for (int i = 0; i < localPaths.Count; i++)
+                {
+
+                    objBannerList = new BannerList();
+                    FileInfo fi = new FileInfo(localPaths[i]);
+                    //filePaths[i] = @Url.Content("~/BannerUploads/" + localPaths[i]);
+                    //                    string modifiedDate=localPaths[i].
+                    objBannerList.Banner = @Url.Content("~/BannerUploads/" + localPaths[i]);
+                    objBannerList.BannerModifiedDate = fi.LastWriteTime;
+                    lstBannerList.Add(objBannerList);
+                }
+                //= Directory.GetFiles(@Url.Content("~/BannerUploads"));
+                return lstBannerList;
+            }
+            else
+            {
+                return new List<BannerList>();
+            }
+        }
+
+        public string VersionMatch(string version, string strLatestVersion, bool forcefulUpdate, int id)
+        {
+
+            string[] versionArray = version.Split('.');
+            string[] currentVersionArray = strLatestVersion.Split('.');
+
+            for (int i = 0; i < versionArray.Length; i++)
+            {
+                int currentVersion = Convert.ToInt16(currentVersionArray[i]);
+                int latestVersion = Convert.ToInt16(versionArray[i]);
+
+                if (currentVersion < latestVersion)
+                {
+                    // if (i == versionArray.Length - 1)
+                    //{
+                    if (forcefulUpdate)
+                    {
+                        return "f";
+                    }
+                    else
+                    {
+                        return "o";
+                    }
+                    // }
+                }
+                else if (currentVersion < latestVersion)
+                {
+                    return "401";
+                }
+                continue;
+
+            }
+
+            return string.Empty;
+        }
+
+        [Route("GetSubjects")]
+        [HttpGet]
+        public IHttpActionResult GetSubject()
+        {
+            var lstSubject = db.Subject.ToList();
+            var subjectArray = new String[db.Subject.ToList().Count];
+
+
+            for (int i = 0; i < lstSubject.Count; i++)
+            {
+                subjectArray[i] = lstSubject[i].Subject;
+            }
+
+            var json = JsonConvert.SerializeObject(subjectArray);
+
+            return Ok(json);
         }
     }
 }

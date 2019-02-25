@@ -140,28 +140,40 @@ namespace PressFitApi.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    // check for existing product
+                    bool productExist = db.Product.ToList().Any(x => x.FileName.ToLower().Equals(product.FileName.ToLower()));
 
-                    //***** searchtags in lower ****
-                    product.SearchTags = product.SearchTags.ToString().ToLower();
-                    product.CreatedDate = DateTime.Now.ToString();
-                    product.ModifiedDate = DateTime.Now.ToString();
-                    // product.PriorityNumber = int.MaxValue;
-
-                    db.Product.Add(product);
-                    db.SaveChanges();
-                    bool printFlag = false;
-                    //****** to save files******
-                    foreach (string file in Request.Files)
+                    if (!productExist)
                     {
-                        if (file == "PrintPdfUpload")
+
+                        //***** searchtags in lower ****
+                        product.SearchTags = product.SearchTags.ToString().ToLower();
+                        product.CreatedDate = DateTime.Now.ToString();
+                        product.ModifiedDate = DateTime.Now.ToString();
+                        // product.PriorityNumber = int.MaxValue;
+
+                        db.Product.Add(product);
+                        db.SaveChanges();
+                        bool printFlag = false;
+                        //****** to save files******
+                        foreach (string file in Request.Files)
                         {
-                            printFlag = true;
+                            if (file == "PrintPdfUpload")
+                            {
+                                printFlag = true;
+                            }
+                            HttpPostedFileBase uploadedFile = Request.Files[file];
+                            SaveFile(uploadedFile, ref product, printFlag);
+                            //Save file here
                         }
-                        HttpPostedFileBase uploadedFile = Request.Files[file];
-                        SaveFile(uploadedFile, ref product, printFlag);
-                        //Save file here
+                        return RedirectToAction("Index");
                     }
-                    return RedirectToAction("Index");
+                    else
+                    {
+                        ViewBag.Message = "File Name already exist";
+                        ModelState.Clear();
+                        //return RedirectToAction("Create");
+                    }
                 }
 
                 return View(product);
@@ -252,11 +264,11 @@ namespace PressFitApi.Controllers
                 //else if (file.ContentLength > 0 && file.ContentType.Contains("pdf"))
                 //{
 
-                    // var oldFileName = Path.GetFileName(file.FileName);
-                    //var newFileName = product.FileName.ToString() + ".pdf";
+                // var oldFileName = Path.GetFileName(file.FileName);
+                //var newFileName = product.FileName.ToString() + ".pdf";
 
-                    //var oldpath = Path.Combine(Server.MapPath("~/PdfUploads"), oldFileName);
-                    //var newpath = Path.Combine(Server.MapPath("~/PdfUploads"), newFileName);
+                //var oldpath = Path.Combine(Server.MapPath("~/PdfUploads"), oldFileName);
+                //var newpath = Path.Combine(Server.MapPath("~/PdfUploads"), newFileName);
 
                 //    var oldpath = Path.Combine(pdfPath, oldFileName);
                 //    var newpath = Path.Combine(pdfPath, newFileName);
@@ -365,9 +377,24 @@ namespace PressFitApi.Controllers
                 // DeleteFile(product);
                 Boolean currentHiddenvalue = Convert.ToBoolean(Request.Form["hiddenValue"]);
                 //****** to save files******
-                bool printFlag = false;
+                bool printFlag = Convert.ToBoolean(Request.Form["hiddenPrintPdfValue"]);
+                //foreach (string file in Request.Files)
+                //{
+                //    HttpPostedFileBase uploadedFile = Request.Files[file];
+                //    if (uploadedFile.ContentLength != 0)
+                //    {
+                //        SaveFile(uploadedFile, ref product, printFlag);
+                //    }
+
+                //}
+
+                //***** to check & save pdf files ****
                 foreach (string file in Request.Files)
                 {
+                    if (file == "PrintPdfUpload")
+                    {
+                        printFlag = true;
+                    }
                     HttpPostedFileBase uploadedFile = Request.Files[file];
                     if (uploadedFile.ContentLength != 0)
                     {
@@ -452,13 +479,13 @@ namespace PressFitApi.Controllers
 
 
                     //Get Certificate
-                    //var appleCert = System.IO.File.ReadAllBytes(Server.MapPath("~/Files/APNS_PROD_Certificates.p12"));
-                    var appleCert = System.IO.File.ReadAllBytes(Server.MapPath("~/Files/APNS_DEV_Certificates.p12"));
+                    var appleCert = System.IO.File.ReadAllBytes(Server.MapPath("~/Files/APNS_PROD_Certificates.p12"));
+                    //var appleCert = System.IO.File.ReadAllBytes(Server.MapPath("~/Files/APNS_DEV_Certificates.p12"));
 
 
                     // Configuration (NOTE: .pfx can also be used here)
-                    // var config = new ApnsConfiguration(ApnsConfiguration.ApnsServerEnvironment.Production, appleCert, "");
-                    var config = new ApnsConfiguration(ApnsConfiguration.ApnsServerEnvironment.Sandbox, appleCert, "");
+                     var config = new ApnsConfiguration(ApnsConfiguration.ApnsServerEnvironment.Production, appleCert, "");
+                    //var config = new ApnsConfiguration(ApnsConfiguration.ApnsServerEnvironment.Sandbox, appleCert, "");
 
 
                     // Create a new broker
@@ -609,7 +636,7 @@ namespace PressFitApi.Controllers
 
 
                 var pdfFileName = product.FileName.ToString() + ".pdf";
-                var printPdfFileName = "print_"+product.FileName.ToString() + ".pdf";
+                var printPdfFileName = "print_" + product.FileName.ToString() + ".pdf";
                 var imageFileName = product.FileName.ToString() + ".png";
 
                 var pdfFilePath = Path.Combine(Server.MapPath("~/PdfUploads"), pdfFileName);
@@ -706,12 +733,28 @@ namespace PressFitApi.Controllers
         {
             try
             {
+
+                var pdfPath = Server.MapPath("~/PdfUploads");
+                var printPdfPath = Server.MapPath("~/PrintPdfUploads");
+
                 string updatedFileName = product.FileName;
 
                 Product objProduct = db.Product.Find(product.Id);
                 string previousFileName = objProduct.FileName;
                 objProduct.FileName = updatedFileName;
                 //****** to save files******
+
+                string pdfFilePath = Server.MapPath("~/PdfUploads/" + previousFileName + ".pdf");
+
+                string updatedFilePath = Server.MapPath("~/PdfUploads/" + updatedFileName + ".pdf");
+                string printPdfFilePath = Server.MapPath("~/PrintPdfUploads/print_" + previousFileName + ".pdf");
+                string printUpdatedFilePath = Server.MapPath("~/PrintPdfUploads/print_" + updatedFileName + ".pdf");
+                string imageFilePath = Server.MapPath("~/ImageUploads/" + previousFileName + ".png");
+                string imageUpdatedFilePath = Server.MapPath("~/ImageUploads/" + updatedFileName + ".png");
+
+                System.IO.File.Move(pdfFilePath, updatedFilePath);
+                System.IO.File.Move(printPdfFilePath, printUpdatedFilePath);
+                System.IO.File.Move(imageFilePath, imageUpdatedFilePath);
 
                 db.Entry(objProduct).State = EntityState.Modified;
                 db.SaveChanges();

@@ -11,6 +11,7 @@ using System.Configuration;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 
+
 namespace PressFitApi.Controllers
 {
     public class ContactUsController : ApiController
@@ -18,17 +19,6 @@ namespace PressFitApi.Controllers
         private PressFitApiContext db = new PressFitApiContext();
 
 
-        [Route("GetSubjects")]
-        public IHttpActionResult Get()
-        {
-            var request = new String[3];
-            request[0] = "Service";
-            request[1] = "Complaint";
-            request[2] = "Service1";
-
-            var json = JsonConvert.SerializeObject(request);
-            return Ok(json);
-        }
 
         [Route("PostContactUs")]
         [ResponseType(typeof(ContactUs))]
@@ -38,10 +28,11 @@ namespace PressFitApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-           // sendEmail(objContactUs);
+            sendEmail(objContactUs);
 
             // EmailService objEmail = new EmailService();
-            return Ok("Emailed Successfully");
+            //return Ok("Emailed Successfully");
+            return Json(new { success = true, responseText = "Your message successfuly sent!" });
             //objEmail.SendAsync()
 
             //db.Product.Add(ContactUs);
@@ -52,27 +43,45 @@ namespace PressFitApi.Controllers
 
         private void sendEmail(ContactUs objContactUs)
         {
-            var fromAddress = new MailAddress(ConfigurationManager.AppSettings["FromAddress"], "From Name");
-            var toAddress = new MailAddress(ConfigurationManager.AppSettings["FromAddress"], "To Name");
-            string fromPassword = "#test$1234";
+            try
+            {
+
+                var fromAddress = (ConfigurationManager.AppSettings["FromAddress"]);
+                var toAddresses = (ConfigurationManager.AppSettings["AppSuggestionMailAddresses"]).ToString().Split(';');
+                var password = ConfigurationManager.AppSettings["Password"];
+
+                var smtp = new SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new System.Net.NetworkCredential(fromAddress, password.ToString())
+                };
+
+                if (objContactUs.Subject.ToLower().Trim() == "sales enquiry".Trim())
+                {
+                    toAddresses = (ConfigurationManager.AppSettings["SalesAddress"]).ToString().Split(';');
+                }
+                else if (objContactUs.Subject.ToLower().Trim() != "app suggestion".Trim() && objContactUs.Subject.ToLower().Trim() != "sales enquiry".Trim())
+                {
+                    toAddresses = (ConfigurationManager.AppSettings["MailAddress"]).ToString().Split(';');
+                }
 
 
-            var smtp = new SmtpClient
+
+                foreach (var toAddress in toAddresses)
+                {
+                    var message = new MailMessage(fromAddress, toAddress);
+                    message.Subject = (ConfigurationManager.AppSettings["Subject"]).ToString();
+                    message.Body = (ConfigurationManager.AppSettings["Body"]).ToString();
+                    smtp.Send(message);
+                }
+            }
+            catch (Exception ex)
             {
-                Host = "smtp.gmail.com",
-                Port = 587,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new System.Net.NetworkCredential(fromAddress.Address, fromPassword)
-            };
-            using (var message = new MailMessage(fromAddress, toAddress)
-            {
-                Subject = objContactUs.Subject,
-                Body = objContactUs.Message
-            })
-            {
-                smtp.Send(message);
+                throw ex;
             }
 
         }

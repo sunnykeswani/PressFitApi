@@ -46,6 +46,9 @@ namespace PressFitApi.Models
         public HttpPostedFileBase PdfUpload { get; set; }
 
         [NotMapped]
+        public DateTime ImageModifiedDate { get; set; }
+
+        [NotMapped]
         public HttpPostedFileBase PrintPdfUpload { get; set; }
 
         [Required]

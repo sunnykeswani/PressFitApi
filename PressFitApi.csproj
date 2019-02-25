@@ -234,6 +234,7 @@
     <Compile Include="Controllers\ContactUsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SubjectController.cs" />
     <Compile Include="Controllers\Products1Controller.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\TokenApiController.cs" />
@@ -241,9 +242,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201901290124505_Initial.cs" />
-    <Compile Include="Migrations\201901290124505_Initial.Designer.cs">
-      <DependentUpon>201901290124505_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201902051631536_test.cs" />
+    <Compile Include="Migrations\201902051631536_test.Designer.cs">
+      <DependentUpon>201902051631536_test.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -251,6 +252,7 @@
     <Compile Include="Models\ContactUs.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\SubjectModel.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductBanner.cs" />
     <Compile Include="Models\Token.cs" />
@@ -424,6 +426,10 @@
     <Content Include="Views\Version\Details.cshtml" />
     <Content Include="Views\Version\Edit.cshtml" />
     <Content Include="Views\Version\Index.cshtml" />
+    <Content Include="Views\Subject\Create.cshtml" />
+    <Content Include="Views\Subject\Delete.cshtml" />
+    <Content Include="Views\Subject\Edit.cshtml" />
+    <Content Include="Views\Subject\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Image Uploads\" />
@@ -441,8 +447,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201901290124505_Initial.resx">
-      <DependentUpon>201901290124505_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201902051631536_test.resx">
+      <DependentUpon>201902051631536_test.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

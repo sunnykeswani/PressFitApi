@@ -24,21 +24,21 @@ namespace PressFitApi.Controllers
         [ResponseType(typeof(ContactUs))]
         public IHttpActionResult PostContactUs(ContactUs objContactUs)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                sendEmail(objContactUs);
+                return Json(new { success = true, responseText = "We have received your message. We will get in touch shortly.Thank you!" });
             }
-            sendEmail(objContactUs);
-
-            // EmailService objEmail = new EmailService();
-            //return Ok("Emailed Successfully");
-            return Json(new { success = true, responseText = "Your message successfuly sent!" });
-            //objEmail.SendAsync()
-
-            //db.Product.Add(ContactUs);
-            //db.SaveChanges();
-            //return OkResult;
-            //return CreatedAtRoute("DefaultApi", new { id = product.Id }, product);
+            catch (Exception ex)
+            {
+                return Json(new { success = false, responseText = ex.Message });
+            }
         }
 
         private void sendEmail(ContactUs objContactUs)
@@ -64,7 +64,7 @@ namespace PressFitApi.Controllers
                 {
                     toAddresses = (ConfigurationManager.AppSettings["SalesAddress"]).ToString().Split(';');
                 }
-                else if (objContactUs.Subject.ToLower().Trim() != "app suggestion".Trim() && objContactUs.Subject.ToLower().Trim() != "sales enquiry".Trim())
+                else if (objContactUs.Subject.ToLower().Trim() != "report a bug in the app".Trim() && objContactUs.Subject.ToLower().Trim() != "sales enquiry".Trim())
                 {
                     toAddresses = (ConfigurationManager.AppSettings["MailAddress"]).ToString().Split(';');
                 }
@@ -74,8 +74,10 @@ namespace PressFitApi.Controllers
                 foreach (var toAddress in toAddresses)
                 {
                     var message = new MailMessage(fromAddress, toAddress);
-                    message.Subject = (ConfigurationManager.AppSettings["Subject"]).ToString();
-                    message.Body = (ConfigurationManager.AppSettings["Body"]).ToString();
+                    //message.Subject = (ConfigurationManager.AppSettings["Subject"]).ToString();
+                    //message.Body = (ConfigurationManager.AppSettings["Body"]).ToString();
+                    message.Subject = objContactUs.Subject;
+                    message.Body = "Mobile App Enquiry:" + Environment.NewLine + "Subject:" + objContactUs.Subject + Environment.NewLine + "Name:" + objContactUs.Name + Environment.NewLine + "Email:" + objContactUs.Email + Environment.NewLine + "Contact:" + objContactUs.MobileNo + Environment.NewLine + "City:" + objContactUs.City + Environment.NewLine + "State:" + objContactUs.State + Environment.NewLine + "Message:" + objContactUs.Message + Environment.NewLine;
                     smtp.Send(message);
                 }
             }

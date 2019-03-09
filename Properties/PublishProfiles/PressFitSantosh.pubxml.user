@@ -91,7 +91,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2012 13:00:52</publishTime>
     </File>
     <File Include="bin/PressFitApi.dll">
-      <publishTime>01/07/2019 07:34:41</publishTime>
+      <publishTime>03/03/2019 19:12:01</publishTime>
     </File>
     <File Include="bin/PushSharp.Amazon.dll">
       <publishTime>07/04/2016 14:21:56</publishTime>
@@ -151,7 +151,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/21/2018 06:46:24</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
-      <publishTime>01/07/2019 07:18:44</publishTime>
+      <publishTime>01/19/2019 11:09:29</publishTime>
     </File>
     <File Include="Content/bootstrap.min.css">
       <publishTime>09/13/2018 16:59:55</publishTime>
@@ -478,7 +478,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/13/2018 17:03:22</publishTime>
     </File>
     <File Include="Views/Products1/Create.cshtml">
-      <publishTime>04/11/2018 06:44:42</publishTime>
+      <publishTime>02/19/2019 07:59:07</publishTime>
     </File>
     <File Include="Views/Products1/Delete.cshtml">
       <publishTime>10/21/2018 09:22:57</publishTime>
@@ -487,10 +487,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/13/2018 13:12:55</publishTime>
     </File>
     <File Include="Views/Products1/Edit.cshtml">
-      <publishTime>01/01/2019 14:11:44</publishTime>
+      <publishTime>02/25/2019 23:34:52</publishTime>
+    </File>
+    <File Include="Views/Products1/FileEdit.cshtml">
+      <publishTime>01/19/2019 15:04:59</publishTime>
     </File>
     <File Include="Views/Products1/Index.cshtml">
-      <publishTime>01/06/2019 21:31:41</publishTime>
+      <publishTime>01/30/2019 22:13:45</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>09/13/2018 17:03:20</publishTime>
@@ -499,10 +502,52 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/13/2018 17:03:22</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>01/07/2019 07:33:41</publishTime>
+      <publishTime>02/05/2019 22:21:15</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>10/23/2018 09:50:52</publishTime>
+    </File>
+    <File Include="Views/Subject/Create.cshtml">
+      <publishTime>02/05/2019 22:05:03</publishTime>
+    </File>
+    <File Include="Views/Subject/Delete.cshtml">
+      <publishTime>02/05/2019 22:12:37</publishTime>
+    </File>
+    <File Include="Views/Subject/Edit.cshtml">
+      <publishTime>02/05/2019 22:12:37</publishTime>
+    </File>
+    <File Include="Views/Subject/Index.cshtml">
+      <publishTime>02/05/2019 22:12:35</publishTime>
+    </File>
+    <File Include="Views/Version/Create.cshtml">
+      <publishTime>01/29/2019 07:20:33</publishTime>
+    </File>
+    <File Include="Views/Version/Delete.cshtml">
+      <publishTime>01/27/2019 17:05:53</publishTime>
+    </File>
+    <File Include="Views/Version/Details.cshtml">
+      <publishTime>03/03/2019 23:44:19</publishTime>
+    </File>
+    <File Include="Views/Version/Edit.cshtml">
+      <publishTime>01/29/2019 07:33:24</publishTime>
+    </File>
+    <File Include="Views/Version/Index.cshtml">
+      <publishTime>01/29/2019 07:31:49</publishTime>
+    </File>
+    <File Include="Views/VersionEdit/Create.cshtml">
+      <publishTime>01/27/2019 17:01:37</publishTime>
+    </File>
+    <File Include="Views/VersionEdit/Delete.cshtml">
+      <publishTime>01/27/2019 17:01:38</publishTime>
+    </File>
+    <File Include="Views/VersionEdit/Details.cshtml">
+      <publishTime>03/03/2019 23:41:11</publishTime>
+    </File>
+    <File Include="Views/VersionEdit/Edit.cshtml">
+      <publishTime>01/27/2019 17:01:41</publishTime>
+    </File>
+    <File Include="Views/VersionEdit/Index.cshtml">
+      <publishTime>01/27/2019 17:01:43</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>10/12/2018 23:38:15</publishTime>
@@ -511,7 +556,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/13/2018 16:59:39</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>01/07/2019 07:34:42</publishTime>
+      <publishTime>03/03/2019 19:12:04</publishTime>
     </File>
   </ItemGroup>
 </Project>

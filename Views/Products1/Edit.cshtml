@@ -52,9 +52,11 @@
             //ShowRequired();
             //$("#PdfUpload").prop('required', true);
             $('#PdfUpload').after('<div class="text-danger" id="errMsg">Pdf is Required</div>');
+            $("#PdfUpload").prop('required', true);
             return false;
         } else if (pdf && (printPdf == "false")) {
             $('#PrintPdfUpload').after('<div class="text-danger" id="errMsg">Pdf is Required</div>');
+            $("#PrintPdfUpload").prop('required', true);
             //ShowMessage();
             return false;
         }

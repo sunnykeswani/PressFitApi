@@ -20,7 +20,7 @@ namespace PressFitApi.Models
 
         
         [NotMapped]
-        [Phone]
+        //[Phone]
         public string MobileNo { get; set; }
 
         [NotMapped]

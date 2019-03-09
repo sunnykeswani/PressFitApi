@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<parameters>
-  <parameter name="PressFitApiContext-Web.config Connection String" description="PressFitApiContext Connection String used in web.config by the application to access the database." defaultValue="Server=tcp:pressfitazuredb.database.windows.net,1433;Initial Catalog=pressfiteastus;Persist Security Info=False;User ID=pressfiteastus@pressfitazuredb.database.windows.net;Password=test$1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="C:\\Users\\Santosh\\Documents\\Visual\ Studio\ 2015\\Projects\\PressFitApi\\PressFitApi\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='PressFitApiContext']/@connectionString" />
-  </parameter>
-</parameters>

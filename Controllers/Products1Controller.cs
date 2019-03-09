@@ -92,10 +92,10 @@ namespace PressFitApi.Controllers
                 }
                 return lstProductSize.OrderBy(x => x.PriorityNumber);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
             //  var pdfPath = Server.MapPath("~/PdfUploads");
             //  var imagePath = Server.MapPath("~/ImageUploads");
@@ -369,24 +369,11 @@ namespace PressFitApi.Controllers
         {
             try
             {
-                // ModelState.Clear();
-                //ModelState["ImageUpload"].Errors.Clear();
-                //ModelState["PdfUpload"].Errors.Clear();
-                //if (ModelState.IsValid)
-                // {
-                // DeleteFile(product);
+
                 Boolean currentHiddenvalue = Convert.ToBoolean(Request.Form["hiddenValue"]);
                 //****** to save files******
-                bool printFlag = Convert.ToBoolean(Request.Form["hiddenPrintPdfValue"]);
-                //foreach (string file in Request.Files)
-                //{
-                //    HttpPostedFileBase uploadedFile = Request.Files[file];
-                //    if (uploadedFile.ContentLength != 0)
-                //    {
-                //        SaveFile(uploadedFile, ref product, printFlag);
-                //    }
-
-                //}
+                //bool printFlag = Convert.ToBoolean(Request.Form["hiddenPrintPdfValue"]);
+                bool printFlag = false;
 
                 //***** to check & save pdf files ****
                 foreach (string file in Request.Files)
@@ -484,7 +471,7 @@ namespace PressFitApi.Controllers
 
 
                     // Configuration (NOTE: .pfx can also be used here)
-                     var config = new ApnsConfiguration(ApnsConfiguration.ApnsServerEnvironment.Production, appleCert, "");
+                    var config = new ApnsConfiguration(ApnsConfiguration.ApnsServerEnvironment.Production, appleCert, "");
                     //var config = new ApnsConfiguration(ApnsConfiguration.ApnsServerEnvironment.Sandbox, appleCert, "");
 
 
@@ -572,7 +559,7 @@ namespace PressFitApi.Controllers
         }
         private string getAndroidTokenId()
         {
-            string[] token_array = db.Token.Where(y => y.ChannelId.ToLower() == "android").Select(x => x.TokenId).ToList().Select(i => i.ToString()).ToArray();
+            string[] token_array = db.Token.Where(y => y.ChannelId.ToLower() == "android").Select(x => x.TokenId).ToList().Where(e => e != null).Select(i => i.ToString()).ToArray();
             string tokenIds = string.Join(",", token_array.Select(f => "\"" + f + "\""));
             //string tokenIds = string.Join(",", token_array);
 

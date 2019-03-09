@@ -1,4 +1,4 @@
-﻿@model PressFitApi.Models.Version
+﻿@model PressFitApi.Models.VersionModel
 
 @{
     ViewBag.Title = "Details";
@@ -27,13 +27,20 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ForceFulUpdate)
+            @Html.DisplayNameFor(model => model.ForceFulAndriodUpdate)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ForceFulUpdate)
+            @Html.DisplayFor(model => model.ForceFulAndriodUpdate)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.ForceFulIOSUpdate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ForceFulIOSUpdate)
+        </dd>
     </dl>
 </div>
 <p>

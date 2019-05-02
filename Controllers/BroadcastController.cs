@@ -94,22 +94,46 @@ namespace PressFitApi.Controllers
             try
             {
 
+                List<string> tokenList = db.Token.Where(y => y.ChannelId.ToLower() == "android" && y.TokenId != null).Select(x => x.TokenId).ToList().Select(i => i.ToString()).ToList();
+                int tokenCount = tokenList.Count;
+                int outerLoopCount = tokenCount / 1000;
+                int lastNotificationCount = tokenCount % 1000;
+                int notificationCounter = 0;
+                int loopLength = 1000;
+                string tokenIds = string.Empty;
 
-                string tokenIds = getAndroidTokenId();
-                HttpClient client = new HttpClient();
+                //to check token less than 1000
+                if (tokenCount < 1000)
+                {
+                    loopLength = tokenCount;
+                }
+                
+                for (int i = 0; i <= outerLoopCount; i++)
+                {
+                    tokenIds = getAndroidTokenIdBetweenNos(notificationCounter, loopLength, tokenList);
+                    sendFCMMessage(tokenIds, broadcastModel, httpPath);
 
-                client.BaseAddress = new Uri("https://fcm.googleapis.com/fcm/send");
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new MediaTypeWithQualityHeaderValue("application/json"));
-                string key = "AIzaSyCeWSgk4KlqsoqIMA0XRuSs___jN2lMy4I";
+                    // increasing loop count 
+                    if (i == outerLoopCount - 1)
+                    {
+                        notificationCounter = notificationCounter + 1000;
+                        loopLength = lastNotificationCount;
+                        //notificationCounter = notificationCounter + lastNotificationCount;
+                    }
+                    else
+                    {
+                        notificationCounter = notificationCounter + 1000;
+                        loopLength = notificationCounter + 1000;
+                    }
 
-                client.DefaultRequestHeaders.Add("Authorization", " key = AIzaSyCeWSgk4KlqsoqIMA0XRuSs___jN2lMy4I");
-                // var jsonObject = "{\"registration_ids\":[\"fP1x1T4AQYo:APA91bEu_aEVl-kv8PoUtUTTAykVX_-45XsB_b_bvBR5SArTLERX3mAM0-Yp369tRNUK4T3lvx5ohfkwLHYITqznIJDBns4X-HzCuDcqb_0XeFzRUT9pep38QiN0sTx_A4vty8_aaVdt\",\"fRjyHmcLdaM:APA91bGXK0ggaPrebWjeqlpGp2HLMm36hYEPGCj1hpkzEeikdBAw_lDOb-oid3ExtTYYzX20KIokZofPSAvffDDv7WW5oa3LZfdvsw7Zsgea6GuJ9oUYoHMsxvqMgUc8R15UkasLD2Cz\"],\"collapse_key\":\"type_a\",\"content_available\":true,\"mutable-content \":true,\"data\":{\"body\":\"New Diwali Diyas\",\"message\":\"Diwali offers\",\"url\":\"https://static1.squarespace.com/static/55705e90e4b03651f8736427/t/557062f6e4b0e9b175a7d533/1536068419238/?format=1500w\"}}";
+                }
+                //string tokenIds = getAndroidTokenId();
+                //string tokenIds = getAndroidTokenIdCount(100);
 
-                var jsonObject = "{\"registration_ids\":[" + tokenIds + "],\"collapse_key\":\"type_a\",\"content_available\":true,\"mutable-content \":true,\"data\":{\"body\":\"" + broadcastModel.Message + "\",\"message\":\"" + broadcastModel.Title + "\",\"url\":\"" + httpPath + "\"}}";
-                var content = new StringContent(jsonObject.ToString(), Encoding.UTF8, "application/json");
-                var result = client.PostAsync(client.BaseAddress, content).Result;
+
+
+
+
             }
             catch (Exception ex)
             {
@@ -124,7 +148,7 @@ namespace PressFitApi.Controllers
             {
                 string[] TokenIds = getIOSTokenId();
                 //Get Certificate
-                 var appleCert = System.IO.File.ReadAllBytes(Server.MapPath("~/Files/APNS_PROD_Certificates.p12"));
+                var appleCert = System.IO.File.ReadAllBytes(Server.MapPath("~/Files/APNS_PROD_Certificates.p12"));
                 //var appleCert = System.IO.File.ReadAllBytes(Server.MapPath("~/Files/APNS_DEV_Certificates.p12"));
                 // Configuration (NOTE: .pfx can also be used here)
                 var config = new ApnsConfiguration(ApnsConfiguration.ApnsServerEnvironment.Production, appleCert, "");
@@ -217,6 +241,24 @@ namespace PressFitApi.Controllers
             }
         }
 
+        private void sendFCMMessage(string tokenIds, Broadcast broadcastModel, string httpPath)
+        {
+            HttpClient client = new HttpClient();
+
+            client.BaseAddress = new Uri("https://fcm.googleapis.com/fcm/send");
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+            string key = "AIzaSyCeWSgk4KlqsoqIMA0XRuSs___jN2lMy4I";
+
+            client.DefaultRequestHeaders.Add("Authorization", " key = AIzaSyCeWSgk4KlqsoqIMA0XRuSs___jN2lMy4I");
+            // var jsonObject = "{\"registration_ids\":[\"fP1x1T4AQYo:APA91bEu_aEVl-kv8PoUtUTTAykVX_-45XsB_b_bvBR5SArTLERX3mAM0-Yp369tRNUK4T3lvx5ohfkwLHYITqznIJDBns4X-HzCuDcqb_0XeFzRUT9pep38QiN0sTx_A4vty8_aaVdt\",\"fRjyHmcLdaM:APA91bGXK0ggaPrebWjeqlpGp2HLMm36hYEPGCj1hpkzEeikdBAw_lDOb-oid3ExtTYYzX20KIokZofPSAvffDDv7WW5oa3LZfdvsw7Zsgea6GuJ9oUYoHMsxvqMgUc8R15UkasLD2Cz\"],\"collapse_key\":\"type_a\",\"content_available\":true,\"mutable-content \":true,\"data\":{\"body\":\"New Diwali Diyas\",\"message\":\"Diwali offers\",\"url\":\"https://static1.squarespace.com/static/55705e90e4b03651f8736427/t/557062f6e4b0e9b175a7d533/1536068419238/?format=1500w\"}}";
+
+            var jsonObject = "{\"registration_ids\":[" + tokenIds + "],\"collapse_key\":\"type_a\",\"content_available\":true,\"mutable-content \":true,\"data\":{\"body\":\"" + broadcastModel.Message + "\",\"message\":\"" + broadcastModel.Title + "\",\"url\":\"" + httpPath + "\"}}";
+            var content = new StringContent(jsonObject.ToString(), Encoding.UTF8, "application/json");
+            var result = client.PostAsync(client.BaseAddress, content).Result;
+        }
+
 
         private string[] getIOSTokenId()
         {
@@ -245,6 +287,59 @@ namespace PressFitApi.Controllers
                 //string tokenIds = string.Join(",", token_array);
 
                 return tokenIds;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        private string getAndroidTokenIdBetweenNos(int fromNumber, int toNumber, List<string> tokenList)
+        {
+            try
+            {
+                //string[] token_array = db.Token.Where(y => y.ChannelId.ToLower() == "android" && y.TokenId != null).Select(x => x.TokenId).ToList().Select(i => i.ToString()).ToArray();
+
+                // List<string> tokenList = db.Token.Where(y => y.ChannelId.ToLower() == "android" && y.TokenId != null).Select(x => x.TokenId).ToList().Select(i => i.ToString()).ToList();
+                //string[] token_array = db.Token.Where(d => d.Id >= fromNumber
+                //                        && d.Id <= toNumber).Select(x => x.TokenId).ToList().Select(i => i.ToString()).ToArray();
+
+                string[] token_array = tokenList.GetRange(fromNumber, toNumber).Select(i => i.ToString()).ToArray();
+                string tokenIds = string.Join(",", token_array.Select(f => "\"" + f + "\""));
+
+                return tokenIds;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        private int getAndroidTokenCount()
+        {
+            try
+            {
+                int tokenCount = db.Token.Where(y => y.ChannelId.ToLower() == "android" && y.TokenId != null).Select(x => x.TokenId).ToList().Select(i => i.ToString()).ToArray().Count();
+                //string tokenIds = string.Join(",", token_array);
+
+                return tokenCount;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+
+        private string[] getAndroidTokenIdArray()
+        {
+            try
+            {
+                string[] token_array = db.Token.Where(y => y.ChannelId.ToLower() == "android" && y.TokenId != null).Select(x => x.TokenId).ToList().Select(i => i.ToString()).ToArray();
+                return token_array;
             }
             catch (Exception ex)
             {

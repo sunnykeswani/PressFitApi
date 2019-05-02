@@ -6,6 +6,16 @@
 
 <h2>Product Details</h2>
 
+<script>
+    function copyTextFunction() {
+        var copyText = document.getElementById("fileValue");
+        copyText.select();
+        document.execCommand("copy");
+        return false;
+        //alert("Copied the text: " + copyText.value);
+    }
+</script>
+
 <div>
     
     <hr />
@@ -45,9 +55,28 @@
 
             @Html.DisplayFor(model => model.Id) 
         </dd>
-       
+       <dt>
+           @{var fileValue = "https://brochures.pressfitindia.com/PdfUploads/"+ @Model.FileName.ToString().Trim().Replace(" ","%20")+ ".pdf";
+           }
+           <label class="control-label">File Url:</label>
+       </dt>
+        <dd>
+
+            <input type="text" id="fileValue" class="col-md-10" readonly value=@fileValue>
+            <button onclick="copyTextFunction(); return false;">Copy text</button>
+        </dd>
 
     </dl>
+
+    @*<div class="col-md-12">
+        @{var fileValue = "https://brochures.pressfitindia.com/PdfUploads/PdfUploads/" + @Model.FileName.ToString() + ".pdf";
+        }
+        <label class="control-label">File Url:</label>
+        <input type="text" id="fileValue" class="col-md-10" value=@fileValue>
+
+        @*<a id="fileValue">@fileValue</a>*@
+        @*<button onclick="copyTextFunction(); return false;">Copy text</button>
+    </div>*@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |

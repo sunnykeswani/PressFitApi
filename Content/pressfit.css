@@ -10,3 +10,10 @@
     border-color:#555555 !important;
 
 }
+
+
+.responsive {
+  width: 100%;
+  height: auto;
+}
+

@@ -25,7 +25,7 @@ namespace PressFitApi
 
             //var fromAddress = new MailAddress("sak9890@gmail.com", "From Name");
             var fromAddress = new MailAddress(ConfigurationManager.AppSettings["FromAddress"], "Press Fit");
-            var toAddress = new MailAddress(message.Destination, "To");
+            var toAddress = new MailAddress(message.Destination, "");
             //string fromPassword = "#test$1234";
             string fromPassword = ConfigurationManager.AppSettings["Password"];
 

@@ -259,6 +259,7 @@
     <Compile Include="Models\VersionModel.cs" />
     <Compile Include="PressFitApiContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Recaptcha\ReCaptcha.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

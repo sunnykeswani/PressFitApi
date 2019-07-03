@@ -126,7 +126,7 @@ namespace PressFitApi.Controllers
                 }
 
                 OldProductBanner objProductBanner = new OldProductBanner();
-                objProductBanner.ProductList = db.Product.OrderByDescending(x => x.HighPriority).ToList();
+                objProductBanner.ProductList = db.Product.Where(x=>x.IsMobileUploaded).OrderByDescending(x => x.HighPriority).ToList();
                 objProductBanner.Banner = new string[] { };
                 objProductBanner.Banner = getBannersPath();
 
@@ -177,7 +177,7 @@ namespace PressFitApi.Controllers
                 }
 
                 ProductBanner objProductBanner = new ProductBanner();
-                objProductBanner.ProductList = db.Product.OrderBy(x => x.PriorityNumber).ToList();
+                objProductBanner.ProductList = db.Product.Where(x => x.IsMobileUploaded).OrderBy(x => x.PriorityNumber).ToList();
                 objProductBanner.BannerList = new List<BannerList>();
                 objProductBanner.ImageList = new List<ImageList>();
 

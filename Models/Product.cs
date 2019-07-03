@@ -72,5 +72,8 @@ namespace PressFitApi.Models
         [NotMapped]
         public double ImageSize { get; set; }
 
+        [Display(Name = "Search Tags")]
+        public Boolean IsMobileUploaded { get; set; } = true;
+
     }
 }

@@ -134,7 +134,7 @@ namespace PressFitApi.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,FileName,SearchTags,HighPriority,PdfUpload,ImageUpload,PriorityNumber")] Product product)
+        public ActionResult Create([Bind(Include = "Id,Title,FileName,SearchTags,HighPriority,PdfUpload,ImageUpload,PriorityNumber,IsMobileUploaded")] Product product)
         {
             try
             {
@@ -365,7 +365,7 @@ namespace PressFitApi.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,FileName,SearchTags,HighPriority,PdfUpload,ImageUpload,PriorityNumber")] Product product)
+        public ActionResult Edit([Bind(Include = "Id,Title,FileName,SearchTags,HighPriority,PdfUpload,ImageUpload,PriorityNumber,IsMobileUploaded")] Product product)
         {
             try
             {

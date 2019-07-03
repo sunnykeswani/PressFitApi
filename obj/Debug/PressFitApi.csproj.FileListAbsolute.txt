@@ -81,3 +81,4 @@ C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\o
 C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Debug\PressFitApi.csproj.GenerateResource.Cache
 C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Debug\PressFitApi.dll
 C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Debug\PressFitApi.pdb
+C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Debug\PressFitApi.Migrations.isMobileUploaded.resources

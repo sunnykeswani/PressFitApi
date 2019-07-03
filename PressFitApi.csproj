@@ -246,6 +246,10 @@
     <Compile Include="Migrations\201902051631536_test.Designer.cs">
       <DependentUpon>201902051631536_test.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906290315329_isMobileUploaded.cs" />
+    <Compile Include="Migrations\201906290315329_isMobileUploaded.Designer.cs">
+      <DependentUpon>201906290315329_isMobileUploaded.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Broadcast.cs" />
@@ -450,6 +454,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201902051631536_test.resx">
       <DependentUpon>201902051631536_test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906290315329_isMobileUploaded.resx">
+      <DependentUpon>201906290315329_isMobileUploaded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -3,6 +3,7 @@ using PressFitApi.Models;
 using PushSharp.Apple;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -25,6 +26,7 @@ namespace PressFitApi.Controllers
             return View();
         }
 
+
         public ActionResult Create(Broadcast broadcastModel)
         {
             try
@@ -33,6 +35,7 @@ namespace PressFitApi.Controllers
                 {
                     foreach (string file in Request.Files)
                     {
+                        Response.Write("<script>console.log('1. inside foreach loop');</script>");
                         HttpPostedFileBase uploadedFile = Request.Files[file];
                         SaveFile(uploadedFile);
                         string hostName = Request.Url.Host.ToString();
@@ -41,6 +44,7 @@ namespace PressFitApi.Controllers
                         var urlPath = string.Empty;
                         if (uploadedFile.FileName != string.Empty)
                         {
+
                             httpPath = @Url.Content("~/BroadcastUploads/" + uploadedFile.FileName);
                             urlPath = "http://" + Request.Url.Authority + httpPath;
                         }
@@ -77,9 +81,9 @@ namespace PressFitApi.Controllers
         {
             try
             {
-
-                SendIOSNotification(httpPath, broadcastModel);
                 SendAndroidNotification(httpPath, broadcastModel);
+                SendIOSNotification(httpPath, broadcastModel);
+
 
             }
             catch (Exception ex)
@@ -107,11 +111,11 @@ namespace PressFitApi.Controllers
                 {
                     loopLength = tokenCount;
                 }
-                
+
                 for (int i = 0; i <= outerLoopCount; i++)
                 {
                     tokenIds = getAndroidTokenIdBetweenNos(notificationCounter, loopLength, tokenList);
-                    sendFCMMessage(tokenIds, broadcastModel, httpPath);
+                    sendFCMMessage(tokenIds, broadcastModel, Server.UrlPathEncode(httpPath));
 
                     // increasing loop count 
                     if (i == outerLoopCount - 1)
@@ -123,7 +127,7 @@ namespace PressFitApi.Controllers
                     else
                     {
                         notificationCounter = notificationCounter + 1000;
-                        loopLength = notificationCounter + 1000;
+                        // loopLength = notificationCounter + 1000;
                     }
 
                 }
@@ -142,13 +146,19 @@ namespace PressFitApi.Controllers
             }
 
         }
+
+
+
         private void SendIOSNotification(string httpPath, Broadcast broadcastModel)
         {
             try
             {
                 string[] TokenIds = getIOSTokenId();
                 //Get Certificate
-                var appleCert = System.IO.File.ReadAllBytes(Server.MapPath("~/Files/APNS_PROD_Certificates.p12"));
+
+                var certicatePath = (ConfigurationManager.AppSettings["ProdCertificate"]);
+                // var appleCert = System.IO.File.ReadAllBytes(Server.MapPath("~/Files/APNS_PROD_Certificates.p12"));
+                var appleCert = System.IO.File.ReadAllBytes(Server.MapPath(certicatePath));
                 //var appleCert = System.IO.File.ReadAllBytes(Server.MapPath("~/Files/APNS_DEV_Certificates.p12"));
                 // Configuration (NOTE: .pfx can also be used here)
                 var config = new ApnsConfiguration(ApnsConfiguration.ApnsServerEnvironment.Production, appleCert, "");
@@ -158,18 +168,6 @@ namespace PressFitApi.Controllers
                 foreach (var deviceToken in TokenIds)
                 {
                     var apnsBroker = new ApnsServiceBroker(config);
-
-                    //8FA978DB52FC2B09D79F039C9928BF4867A01B106689232F8D75234F37D04396
-
-
-                    ////Get Certificate
-                    //var appleCert = System.IO.File.ReadAllBytes(Server.MapPath("~/Files/APNS_PROD_Certificates.p12"));
-
-                    //// Configuration (NOTE: .pfx can also be used here)
-                    //var config = new ApnsConfiguration(ApnsConfiguration.ApnsServerEnvironment.Production, appleCert, "");
-
-                    //// Create a new broker
-                    //var apnsBroker = new ApnsServiceBroker(config);
 
                     // Wire up events
                     apnsBroker.OnNotificationFailed += (notification, aggregateEx) =>
@@ -299,12 +297,6 @@ namespace PressFitApi.Controllers
         {
             try
             {
-                //string[] token_array = db.Token.Where(y => y.ChannelId.ToLower() == "android" && y.TokenId != null).Select(x => x.TokenId).ToList().Select(i => i.ToString()).ToArray();
-
-                // List<string> tokenList = db.Token.Where(y => y.ChannelId.ToLower() == "android" && y.TokenId != null).Select(x => x.TokenId).ToList().Select(i => i.ToString()).ToList();
-                //string[] token_array = db.Token.Where(d => d.Id >= fromNumber
-                //                        && d.Id <= toNumber).Select(x => x.TokenId).ToList().Select(i => i.ToString()).ToArray();
-
                 string[] token_array = tokenList.GetRange(fromNumber, toNumber).Select(i => i.ToString()).ToArray();
                 string tokenIds = string.Join(",", token_array.Select(f => "\"" + f + "\""));
 
@@ -322,8 +314,7 @@ namespace PressFitApi.Controllers
             try
             {
                 int tokenCount = db.Token.Where(y => y.ChannelId.ToLower() == "android" && y.TokenId != null).Select(x => x.TokenId).ToList().Select(i => i.ToString()).ToArray().Count();
-                //string tokenIds = string.Join(",", token_array);
-
+              
                 return tokenCount;
             }
             catch (Exception ex)
@@ -352,12 +343,17 @@ namespace PressFitApi.Controllers
         {
             try
             {
+                Response.Write("<script>console.log('2. inside savefile function');</script>");
+
                 var broadcastPath = Server.MapPath("~/BroadcastUploads");
                 if (!Directory.Exists(broadcastPath))
                 {
                     Directory.CreateDirectory(broadcastPath);
                 }
+                Response.Write("<script>console.log('3. broadcast Path mapped');</script>");
+
                 var httpPath = string.Empty;
+
                 if (file.ContentLength > 0 && file.ContentType.Contains("image"))
                 {
                     var newpath = Path.Combine(Server.MapPath("~/BroadcastUploads"), file.FileName);
@@ -366,11 +362,7 @@ namespace PressFitApi.Controllers
                     //httpPath = @Url.Content("~/BroadcastUploads/" + file.FileName);
                 }
 
-                //if (httpPath != string.Empty)
-                //{
-                //    Broadcast(httpPath);
-                //}
-
+               
             }
             catch (Exception ex)
             {

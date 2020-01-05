@@ -36,5 +36,7 @@ public class PressFitApiContext : DbContext
 
     public System.Data.Entity.DbSet<PressFitApi.Models.SubjectModel> Subject { get; set; }
 
+    public System.Data.Entity.DbSet<PressFitApi.Models.ContactUs> ContactUs { get; set; }
+
     //public System.Data.Entity.DbSet<PressFitApi.Models.Token> TokenModels { get; set; }
 }

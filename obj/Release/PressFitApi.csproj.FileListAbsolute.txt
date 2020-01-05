@@ -78,6 +78,10 @@ C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\b
 C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Release\PressFitApi.dll
 C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Release\PressFitApi.pdb
-C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Release\PressFitApi.csprojResolveAssemblyReference.cache
 C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Release\PressFitApi.Migrations.test.resources
 C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Release\PressFitApi.csproj.GenerateResource.Cache
+C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Release\PressFitApi.Migrations.isMobileUploaded.resources
+C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Release\PressFitApi.Migrations.ContactUs.resources
+C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Release\PressFitApi.Migrations.ContactUs1.resources
+C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Release\PressFitApi.Migrations.httppostfile.resources
+C:\Users\Santosh\Documents\Visual Studio 2015\Projects\PressFitApi\PressFitApi\obj\Release\PressFitApi.csprojResolveAssemblyReference.cache

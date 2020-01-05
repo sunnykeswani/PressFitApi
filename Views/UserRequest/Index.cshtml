@@ -1,0 +1,130 @@
+﻿@model IEnumerable<PressFitApi.Models.ContactUs>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MobileNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.State)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th class="col-md-3">
+            @Html.DisplayNameFor(model => model.Message)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Subject)
+        </th>
+        <th>Snap1</th>
+        <th>Snap2</th>
+        <th>Snap3</th>
+        <th>Snap4</th>
+        <th>Snap5</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MobileNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.State)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td class="col-md-3">
+                @Html.DisplayFor(modelItem => item.Message)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject)
+            </td>
+
+            @{ List<KeyValuePair<string, string>> lstOfPics = ViewBag.lstValues;
+                int count = 0;
+                int imgCounter = 0;
+                short lastKeyValue = -1;}
+            @foreach (var value in lstOfPics)
+            {
+                count++;
+                if (lstOfPics.ToList().Exists(x => Convert.ToInt16(x.Key) == item.Id))
+                {
+                    if (Convert.ToInt16(value.Key) == item.Id)
+                    {
+                        imgCounter++;
+                        <td>
+
+                            <a href="@Url.Content("~/ImageStorage/" + value.Value)" target="_blank">
+
+                                <img src="@Url.Content("~/ImageStorage/" + value.Value)" height="32" width="32" alt="IMAGES" />
+
+                            </a>
+                            @*lastKeyValue = Convert.ToInt16(value.Key);*@
+                        </td>
+
+                    }
+                    else
+                    {
+
+                        continue;
+                    }
+
+                    if (lstOfPics[count].Key == value.Key)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        for (int i = imgCounter; i < 5; i++)
+                        {
+                            <td></td>
+                        }
+                        imgCounter = 1;
+                    }
+
+                }
+                else
+                {
+                    <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    break;
+                }
+            }
+
+
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.Id }) |*@
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+                }
+
+</table>

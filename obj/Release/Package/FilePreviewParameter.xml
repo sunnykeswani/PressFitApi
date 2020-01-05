@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <parameters>
-  <parameter name="IIS Web Application Name" description="" value="PressFitApiDB1" tags="IisApp">
+  <parameter name="IIS Web Application Name" description="" value="pressfitazureapp" tags="IisApp">
     <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\Santosh\\Documents\\Visual\ Studio\ 2015\\Projects\\PressFitApi\\PressFitApi\\obj\\Release\\Package\\PackageTmp$" />
     <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\Users\\Santosh\\Documents\\Visual\ Studio\ 2015\\Projects\\PressFitApi\\PressFitApi\\obj\\Release\\Package\\PackageTmp$" />
   </parameter>
-  <parameter name="PressFitApiContext-Web.config Connection String" description="" value="Server=mi3-wsq4.a2hosting.com;Initial Catalog=pressfit_brochures;User ID=pressfit_brochures;Password=test$1234;" tags="">
+  <parameter name="PressFitApiContext-Web.config Connection String" description="" value="Data Source=tcp:pressfitazuredb.database.windows.net,1433;Initial Catalog=pressfiteastus;User Id=pressfiteastus@pressfitazuredb.database.windows.net;Password=test$1234" tags="">
     <parameterEntry kind="XmlFile" scope="C:\\Users\\Santosh\\Documents\\Visual\ Studio\ 2015\\Projects\\PressFitApi\\PressFitApi\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='PressFitApiContext']/@connectionString" />
   </parameter>
 </parameters>

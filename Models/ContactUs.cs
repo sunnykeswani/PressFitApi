@@ -10,32 +10,43 @@ namespace PressFitApi.Models
     
     public class ContactUs
     {
-        [NotMapped]
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        //[NotMapped]
         [Required]
         public string Name { get; set; }
         [Required]
-        [NotMapped]
+        //[NotMapped]
         [EmailAddress]
         public string Email { get; set; }
 
         
-        [NotMapped]
+       // [NotMapped]
         //[Phone]
         public string MobileNo { get; set; }
 
-        [NotMapped]
+        //[NotMapped]
         public string State { get; set; }
 
-        [NotMapped]
+       // [NotMapped]
         public string City { get; set; }
 
 
-        [NotMapped]
+       // [NotMapped]
         public string Message { get; set; }
 
         [Required]
-        [NotMapped]
+        //[NotMapped]
         public string Subject { get; set; }
+
+        //public HttpPostedFileBase[] Screenshot { get; set; } = null;
+
+        [NotMapped]
+        public string[] ScreenshotArray { get; set; } = null;
+
+        public string Screenshot { get; set; } = null;
 
 
     }

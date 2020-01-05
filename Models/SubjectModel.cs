@@ -14,7 +14,13 @@ namespace PressFitApi.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        [Required]
         public string Subject { get; set; }
+
+        [Required]
+        [Display(Name = "Email")]
+        //[EmailAddress]
+        public string EmailId { get; set; }
 
     }
 }

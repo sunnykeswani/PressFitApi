@@ -8,9 +8,11 @@ namespace PressFitApi.Models
 {
     public class Broadcast
     {
-        [Required]
+        [Required(ErrorMessage = "Max length is 400")]
+        [MaxLength(400)]
         public string Title { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Max length is 1400")]
+        [MaxLength(1400)]
         public string Message { get; set; }
         
     }

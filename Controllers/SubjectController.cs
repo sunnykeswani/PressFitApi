@@ -46,12 +46,22 @@ namespace PressFitApi.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Subject")] SubjectModel msgSubject)
+        public ActionResult Create([Bind(Include = "Id,Subject,EmailId")] SubjectModel msgSubject)
         {
+            var lstSubject = db.Subject.ToList();
             if (ModelState.IsValid)
             {
                 db.Subject.Add(msgSubject);
                 db.SaveChanges();
+                
+                //if (!(lstSubject.Exists(x=>x.Subject.ToLower().Equals(msgSubject.Subject.ToString().ToLower()) && x.EmailId.ToLower().Equals(msgSubject.EmailId.ToString().ToLower()))))
+                //{
+                 
+                //}else
+                //{
+                //    ViewBag.StatusMessage = "EmailId and Subject already exist";
+                //}
+            
                 return RedirectToAction("Index");
             }
 
@@ -78,7 +88,7 @@ namespace PressFitApi.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Subject")] SubjectModel msgSubject)
+        public ActionResult Edit([Bind(Include = "Id,Subject,EmailId")] SubjectModel msgSubject)
         {
             if (ModelState.IsValid)
             {

@@ -238,6 +238,8 @@
     <Compile Include="Controllers\Products1Controller.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\TokenApiController.cs" />
+    <Compile Include="Controllers\UploadBannerController.cs" />
+    <Compile Include="Controllers\UserRequestController.cs" />
     <Compile Include="Controllers\VersionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -249,6 +251,18 @@
     <Compile Include="Migrations\201906290315329_isMobileUploaded.cs" />
     <Compile Include="Migrations\201906290315329_isMobileUploaded.Designer.cs">
       <DependentUpon>201906290315329_isMobileUploaded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909230235274_ContactUs.cs" />
+    <Compile Include="Migrations\201909230235274_ContactUs.Designer.cs">
+      <DependentUpon>201909230235274_ContactUs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909230241191_ContactUs1.cs" />
+    <Compile Include="Migrations\201909230241191_ContactUs1.Designer.cs">
+      <DependentUpon>201909230241191_ContactUs1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909260528373_httppostfile.cs" />
+    <Compile Include="Migrations\201909260528373_httppostfile.Designer.cs">
+      <DependentUpon>201909260528373_httppostfile.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -267,12 +281,11 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BroadcastUploads\WhatsApp Image 2018-09-30 at 23.18.38.jpeg" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
-    <Content Include="Content\Images\PressFitImg.jpg" />
+    <Content Include="HomeBanner\PressFitImg.jpg" />
     <Content Include="Content\pressfit.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -355,6 +368,7 @@
     <None Include="Properties\PublishProfiles\PressFitIndia.pubxml" />
     <None Include="Properties\PublishProfiles\PressFitSantosh.pubxml" />
     <None Include="Properties\PublishProfiles\Santosh.pubxml" />
+    <None Include="Properties\PublishProfiles\test.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -435,11 +449,20 @@
     <Content Include="Views\Subject\Delete.cshtml" />
     <Content Include="Views\Subject\Edit.cshtml" />
     <Content Include="Views\Subject\Index.cshtml" />
+    <Content Include="Views\UploadBanner\Index.cshtml" />
+    <Content Include="Views\UserRequest\Create.cshtml" />
+    <Content Include="Views\UserRequest\Delete.cshtml" />
+    <Content Include="Views\UserRequest\Details.cshtml" />
+    <Content Include="Views\UserRequest\Edit.cshtml" />
+    <Content Include="Views\UserRequest\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Image Uploads\" />
     <Folder Include="App_Data\Pdf Uploads\" />
     <Folder Include="BannerUploads\" />
+    <Folder Include="BroadcastUploads\" />
+    <Folder Include="Content\Images\" />
+    <Folder Include="ImageStorage\" />
     <Folder Include="ImageUploads\" />
     <Folder Include="PdfUploads\" />
     <Folder Include="Pressfit\" />
@@ -457,6 +480,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906290315329_isMobileUploaded.resx">
       <DependentUpon>201906290315329_isMobileUploaded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909230235274_ContactUs.resx">
+      <DependentUpon>201909230235274_ContactUs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909230241191_ContactUs1.resx">
+      <DependentUpon>201909230241191_ContactUs1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909260528373_httppostfile.resx">
+      <DependentUpon>201909260528373_httppostfile.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

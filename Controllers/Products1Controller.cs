@@ -15,6 +15,7 @@ using System.Net.Http.Headers;
 using PushSharp.Apple;
 using Newtonsoft.Json.Linq;
 using System.Text;
+using System.Configuration;
 
 namespace PressFitApi.Controllers
 {
@@ -466,12 +467,13 @@ namespace PressFitApi.Controllers
 
 
                     //Get Certificate
-                    var appleCert = System.IO.File.ReadAllBytes(Server.MapPath("~/Files/APNS_PROD_Certificates.p12"));
+                    var certicatePath = (ConfigurationManager.AppSettings["ProdCertificate"]);
+                    var appleCert = System.IO.File.ReadAllBytes(Server.MapPath(certicatePath));
                     //var appleCert = System.IO.File.ReadAllBytes(Server.MapPath("~/Files/APNS_DEV_Certificates.p12"));
 
 
                     // Configuration (NOTE: .pfx can also be used here)
-                    var config = new ApnsConfiguration(ApnsConfiguration.ApnsServerEnvironment.Production, appleCert, "");
+                    var config = new ApnsConfiguration(ApnsConfiguration.ApnsServerEnvironment.Sandbox, appleCert, "");
                     //var config = new ApnsConfiguration(ApnsConfiguration.ApnsServerEnvironment.Sandbox, appleCert, "");
 
 
